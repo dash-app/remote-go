@@ -3,12 +3,37 @@ package sg174
 import "strconv"
 
 type Remote struct {
-	Operation      bool    `json:"operation"`
-	Mode           string  `json:"mode"`
-	Temp           float32 `json:"temp"`
-	Fan            string  `json:"fan"`
-	VerticalVane   string  `json:"vertical_vane"`
-	HorizontalVane string  `json:"horizontal_vane"`
+	Operation      bool        `json:"operation"`
+	Mode           string      `json:"mode"`
+	Temp           interface{} `json:"temp"`
+	Fan            string      `json:"fan"`
+	HorizontalVane string      `json:"horizontal_vane"`
+	VerticalVane   string      `json:"vertical_vane"`
+}
+
+type State struct {
+	Operation bool                  `json:"operation"`
+	Mode      string                `json:"mode"`
+	Entry     map[string]*ModeEntry `json:"entry"`
+}
+
+type ModeEntry struct {
+	// Temp - cool/heat: float / dry: string
+	Temp           interface{} `json:"temp"`
+	Fan            string      `json:"fan"`
+	HorizontalVane string      `json:"horizontal_vane"`
+	VerticalVane   string      `json:"vertical_vane"`
+}
+
+func (s *State) ToEntry() *Remote {
+	return &Remote{
+		Operation:      s.Operation,
+		Mode:           s.Mode,
+		Temp:           s.Entry[s.Mode].Temp,
+		Fan:            s.Entry[s.Mode].Fan,
+		HorizontalVane: s.Entry[s.Mode].HorizontalVane,
+		VerticalVane:   s.Entry[s.Mode].VerticalVane,
+	}
 }
 
 func (r *Remote) Generate() ([][]int, error) {
@@ -31,11 +56,15 @@ func (r *Remote) Generate() ([][]int, error) {
 		signal[1][6] = 0x38
 	}
 
-	t := int(r.Temp) - 16
-	if int(r.Temp*10)%10 == 5 {
-		t += 16
+	// TODO: Switch when dry
+	if r.Mode == "cool" || r.Mode == "heat" {
+		temp := r.Temp.(float64)
+		t := int(temp) - 16
+		if int(temp)*10%10 == 5 {
+			t += 16
+		}
+		signal[1][7] = t
 	}
-	signal[1][7] = t
 
 	if r.VerticalVane == "swing" {
 		signal[1][8] = 0xF8
