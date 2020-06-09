@@ -3,8 +3,8 @@ package sg174_test
 import (
 	"testing"
 
-	"github.com/dash-home/remote-go/aircon/mitsubishi/sg174"
-	"github.com/dash-home/remote-go/hex"
+	"github.com/dash-app/remote-go/aircon/mitsubishi/sg174"
+	"github.com/dash-app/remote-go/hex"
 )
 
 func TestExampleSuccess(t *testing.T) {

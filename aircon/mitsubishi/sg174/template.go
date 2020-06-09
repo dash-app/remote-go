@@ -1,6 +1,6 @@
 package sg174
 
-import "github.com/dash-home/remote-go/template"
+import "github.com/dash-app/remote-go/template"
 
 type ModeTemplate struct {
 	Temp           *template.Action `json:"temp"`
