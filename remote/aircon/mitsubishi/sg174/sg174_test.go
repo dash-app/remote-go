@@ -3,12 +3,12 @@ package sg174_test
 import (
 	"testing"
 
-	"github.com/dash-app/remote-go/aircon/mitsubishi/sg174"
 	"github.com/dash-app/remote-go/hex"
+	"github.com/dash-app/remote-go/remote/aircon/mitsubishi/sg174"
 )
 
 func TestExampleSuccess(t *testing.T) {
-	entry := sg174.Remote{
+	entry := sg174.Entry{
 		Operation:      true,
 		Mode:           "heat",
 		Temp:           24.5,
