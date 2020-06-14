@@ -1,8 +1,6 @@
 package remote
 
-import (
-	"github.com/dash-app/remote-go/remote/aircon/mitsubishi/sg174"
-)
+import "github.com/dash-app/remote-go/template"
 
 //type remote interface {
 //	// Generate Entry from JSON payload
@@ -15,22 +13,21 @@ import (
 //	// Get Code
 //}
 
-//type Remote struct {
-//	Vendor   string
-//	Model    string
-//	Sender   func(signal []int) error
-//	Template *template.Template
-//}
-
-type Remote interface {
-	Generate()
+type Remote struct {
+	Vendor   string
+	Model    string
+	Template *template.Template
 }
 
-func New(vendor string, model string) *Remote {
-	switch {
-	case vendor == "mitsubishi" && model == "sg174":
-		sg174.New()
-	}
+type IRCode struct {
+	Code [][]int
+}
 
-	return nil
+//type Remote interface {
+//	Generate()
+//}
+
+type State interface {
+	Save() error
+	Load() error
 }
