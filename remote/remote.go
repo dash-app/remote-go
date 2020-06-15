@@ -19,13 +19,10 @@ type Remote struct {
 	Template *template.Template
 }
 
-type IRCode struct {
-	Code [][]int
+type HexCode struct {
+	Code     [][]int
+	Interval int
 }
-
-//type Remote interface {
-//	Generate()
-//}
 
 type State interface {
 	Save() error
