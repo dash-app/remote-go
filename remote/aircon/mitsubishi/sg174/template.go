@@ -17,8 +17,8 @@ var Template = &template.Template{
 		Operation: &template.Action{
 			Type: template.TOGGLE,
 			Toggle: &template.Toggle{
-				ON:  "on",
-				OFF: "off",
+				ON:  true,
+				OFF: false,
 			},
 		},
 		Modes: map[string]interface{}{
