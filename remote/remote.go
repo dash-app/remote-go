@@ -1,30 +1,11 @@
 package remote
 
-import "github.com/dash-app/remote-go/template"
+import "github.com/dash-app/remote-go/aircon"
 
-//type remote interface {
-//	// Generate Entry from JSON payload
-//	Generate(opts map[string]interface{})
-//
-//	// Convert state for save
-//
-//	// Get Template
-//
-//	// Get Code
-//}
-
-type Remote struct {
-	Vendor   string
-	Model    string
-	Template *template.Template
+type Remote interface {
+	Generate(*aircon.Entry) ([]*HexCode, error)
 }
-
 type HexCode struct {
 	Code     [][]int
 	Interval int
-}
-
-type State interface {
-	Save() error
-	Load() error
 }

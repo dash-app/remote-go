@@ -14,7 +14,14 @@ type Template struct {
 
 type Aircon struct {
 	Operation *Action                `json:"operation"`
-	Modes     map[string]interface{} `json:"modes"`
+	Modes     map[string]*AirconMode `json:"modes"`
+}
+
+type AirconMode struct {
+	Temp           *Action `json:"temp"`
+	Fan            *Action `json:"fan"`
+	HorizontalVane *Action `json:"horizontal_vane"`
+	VerticalVane   *Action `json:"vertical_vane"`
 }
 
 type Action struct {
