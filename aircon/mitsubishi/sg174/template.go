@@ -1,13 +1,8 @@
 package sg174
 
-import "github.com/dash-app/remote-go/template"
-
-type ModeTemplate struct {
-	Temp           *template.Action `json:"temp"`
-	Fan            *template.Action `json:"fan"`
-	HorizontalVane *template.Action `json:"horizontal_vane"`
-	VerticalVane   *template.Action `json:"vertical_vane"`
-}
+import (
+	"github.com/dash-app/remote-go/template"
+)
 
 var Template = &template.Template{
 	Vendor: "mitsubishi",
@@ -17,12 +12,12 @@ var Template = &template.Template{
 		Operation: &template.Action{
 			Type: template.TOGGLE,
 			Toggle: &template.Toggle{
-				ON:  "on",
-				OFF: "off",
+				ON:  true,
+				OFF: false,
 			},
 		},
-		Modes: map[string]interface{}{
-			"cool": &ModeTemplate{
+		Modes: map[string]*template.AirconMode{
+			"cool": &template.AirconMode{
 				Temp: &template.Action{
 					Type:    template.RANGE,
 					Default: 21.0,
@@ -48,7 +43,7 @@ var Template = &template.Template{
 					List:    []interface{}{"left", "left_mid", "center", "right_mid", "right"},
 				},
 			},
-			"dry": &ModeTemplate{
+			"dry": &template.AirconMode{
 				Temp: &template.Action{
 					Type:    template.LIST,
 					Default: "mid",
@@ -70,7 +65,7 @@ var Template = &template.Template{
 					List:    []interface{}{"left", "left_mid", "center", "right_mid", "right"},
 				},
 			},
-			"heat": &ModeTemplate{
+			"heat": &template.AirconMode{
 				Temp: &template.Action{
 					Type:    template.RANGE,
 					Default: 27.0,
@@ -98,4 +93,8 @@ var Template = &template.Template{
 			},
 		},
 	},
+}
+
+func (r *sg174) Template() *template.Template {
+	return Template
 }
