@@ -1,0 +1,118 @@
+package daikin01
+
+import (
+	"errors"
+	"fmt"
+	"reflect"
+	"testing"
+
+	"github.com/dash-app/remote-go/aircon"
+	"github.com/dash-app/remote-go/hex"
+	"github.com/dash-app/remote-go/remote"
+)
+
+type ACTestEntry struct {
+	Title    string
+	Original [][]int
+	Entry    *aircon.Entry
+}
+
+func (te *ACTestEntry) Compare(rem remote.Aircon) error {
+	code, err := rem.Generate(te.Entry)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("### " + te.Title)
+	// Output both entries
+	fmt.Println("-- Original:")
+	hex.Print(te.Original)
+	fmt.Println("-- Provided entry:")
+	hex.Print(code[0].Code)
+
+	if ok := reflect.DeepEqual(te.Original, code[0].Code); !ok {
+		return errors.New("result does not match")
+	}
+	return nil
+}
+
+// TEST_COOL
+var TestCase = []*ACTestEntry{
+	{
+		Title: "test: cool",
+		Original: [][]int{
+			{0x00},
+			{0x11, 0xDA, 0x27, 0x00, 0xC5, 0x00, 0x00, 0xD7},
+			{0x11, 0xDA, 0x27, 0x00, 0x42, 0x00, 0x00, 0x54},
+			{0x11, 0xDA, 0x27, 0x00, 0x00, 0x39, 0x24, 0x00, 0xA0, 0x00, 0x00, 0x06, 0x60, 0x00, 0x00, 0xC1, 0x00, 0x00, 0x36},
+		},
+		Entry: &aircon.Entry{
+			Operation:      true,
+			Mode:           "cool",
+			Temp:           18.0,
+			Fan:            "auto",
+			HorizontalVane: "keep",
+			VerticalVane:   "keep",
+		},
+	},
+	{
+		Title: "test: temp(32)",
+		Original: [][]int{
+			{0x00},
+			{0x11, 0xDA, 0x27, 0x00, 0xC5, 0x00, 0x00, 0xD7},
+			{0x11, 0xDA, 0x27, 0x00, 0x42, 0x00, 0x00, 0x54},
+			{0x11, 0xDA, 0x27, 0x00, 0x00, 0x39, 0x40, 0x00, 0xA0, 0x00, 0x00, 0x06, 0x60, 0x00, 0x00, 0xC1, 0x00, 0x00, 0x52},
+		},
+		Entry: &aircon.Entry{
+			Operation:      true,
+			Mode:           "cool",
+			Temp:           32.0,
+			Fan:            "auto",
+			HorizontalVane: "keep",
+			VerticalVane:   "keep",
+		},
+	},
+	{
+		Title: "test: fan(5) - MAX",
+		Original: [][]int{
+			{0x00},
+			{0x11, 0xDA, 0x27, 0x00, 0xC5, 0x00, 0x00, 0xD7},
+			{0x11, 0xDA, 0x27, 0x00, 0x42, 0x00, 0x00, 0x54},
+			{0x11, 0xDA, 0x27, 0x00, 0x00, 0x39, 0x24, 0x00, 0x70, 0x00, 0x00, 0x06, 0x60, 0x00, 0x00, 0xC1, 0x00, 0x00, 0x06},
+		},
+		Entry: &aircon.Entry{
+			Operation:      true,
+			Mode:           "cool",
+			Temp:           18.0,
+			Fan:            "5",
+			HorizontalVane: "keep",
+			VerticalVane:   "keep",
+		},
+	},
+	{
+		Title: "test: horizontal_vane(swing)",
+		Original: [][]int{
+			{0x00},
+			{0x11, 0xDA, 0x27, 0x00, 0xC5, 0x00, 0x00, 0xD7},
+			{0x11, 0xDA, 0x27, 0x00, 0x42, 0x00, 0x00, 0x54},
+			{0x11, 0xDA, 0x27, 0x00, 0x00, 0x39, 0x24, 0x00, 0xAF, 0x00, 0x00, 0x06, 0x60, 0x00, 0x00, 0xC1, 0x00, 0x00, 0x45},
+		},
+		Entry: &aircon.Entry{
+			Operation:      true,
+			Mode:           "cool",
+			Temp:           18.0,
+			Fan:            "auto",
+			HorizontalVane: "swing",
+			VerticalVane:   "keep",
+		},
+	},
+}
+
+func TestDaikin01(t *testing.T) {
+	rem := New()
+	for _, test := range TestCase {
+		if err := test.Compare(rem); err != nil {
+			t.Error("!!! ", err)
+		}
+	}
+}
