@@ -13,9 +13,6 @@ jobs:
         with:
           go-version: '1.14.3'
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-          path: $HOME/src/github.com/dash-app/remote-go
       - name: "Test aircon"
         env:
           GOPATH: /home/runner/work/
