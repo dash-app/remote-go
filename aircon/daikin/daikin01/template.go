@@ -99,8 +99,8 @@ var Template = &template.Template{
 					Default: 23.0,
 					Range: &template.Range{
 						Step: 0.5,
-						From: -3.0,
-						To:   1.0,
+						From: 14.0,
+						To:   30.0,
 					},
 				},
 				Fan: &template.Action{
