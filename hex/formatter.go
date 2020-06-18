@@ -17,3 +17,21 @@ func Print(hex [][]int) {
 		fmt.Printf("\n")
 	}
 }
+
+// Format - Return Format
+func Format(hex [][]int) []string {
+	var line []string
+	for _, n := range hex {
+		s := fmt.Sprintf("[")
+		for j, m := range n {
+			if j < len(n)-1 {
+				s += fmt.Sprintf("0x%02X, ", m)
+			} else {
+				s += fmt.Sprintf("0x%02X", m)
+			}
+		}
+		s += fmt.Sprintf("]\n")
+		line = append(line, s)
+	}
+	return line
+}
