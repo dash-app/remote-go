@@ -106,7 +106,7 @@ var Template = &template.Template{
 				Fan: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto"},
+					List:    []interface{}{"auto", "1", "2", "3", "4", "5"},
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.LIST,
