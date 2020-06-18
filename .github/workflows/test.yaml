@@ -12,11 +12,11 @@ jobs:
         id: go
         with:
           go-version: '1.14.3'
-        env:
-          GOPATH: $HOME
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
           path: $HOME/src/github.com/dash-app/remote-go
       - name: "Test aircon"
+        env:
+          GOPATH: /home/runner/work/
         run: go test -bench -benchmem -v ./aircon/...
