@@ -13,7 +13,11 @@ jobs:
         with:
           go-version: '1.14.3'
       - uses: actions/checkout@v2
-      - name: "Test aircon"
+      - name: "Ensure dependencies"
         env:
           GOPATH: /home/runner/work/
-        run: go test -bench -benchmem -v ./aircon/...
+        run: |
+          mkdir -p $GOPATH/src/github.com/$GITHUB_REPOSITORY
+          mv ./* $GOPATH/src/github.com/$GITHUB_REPOSITORY
+          go get -v -t -d ./...
+          go test -bench -benchmem -v ./aircon/...
