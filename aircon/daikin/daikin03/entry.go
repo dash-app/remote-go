@@ -17,6 +17,9 @@ func (r *daikin03) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 	// Operation
 	if e.Operation {
 		code[2][5] = 0x09
+	} else {
+		code[2][5] = 0x08
+		code[1][11] = 0x80
 	}
 
 	// Mode
