@@ -8,16 +8,13 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
-        id: go
         with:
           go-version: '1.14.3'
-      - uses: actions/checkout@v2
       - name: "Ensure dependencies"
-        env:
-          GOPATH: /home/runner/work/go
         run: |
-          mkdir -p $GOPATH/src/github.com/$GITHUB_REPOSITORY
-          mv ./* $GOPATH/src/github.com/$GITHUB_REPOSITORY
           go get -v -t -d ./...
+      - name: "Test aircon"
+        run: |
           go test -bench -benchmem -v ./aircon/...
