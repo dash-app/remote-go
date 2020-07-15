@@ -18,20 +18,20 @@ type Aircon struct {
 }
 
 type AirconMode struct {
-	Temp           *Action   `json:"temp"`
-	Fan            *Action   `json:"fan"`
-	HorizontalVane []*Action `json:"horizontal_vane"`
-	VerticalVane   []*Action `json:"vertical_vane"`
+	Temp           *Action   `json:"temp,omitempty"`
+	Fan            *Action   `json:"fan,omitempty"`
+	HorizontalVane []*Action `json:"horizontal_vane,omitempty"`
+	VerticalVane   []*Action `json:"vertical_vane,omitempty"`
 }
 
 type Action struct {
 	Type    ActionType    `json:"type"`
 	Default interface{}   `json:"default,omitempty"`
 	When    *When         `json:"when,omitempty"`
-	List    []interface{} `json:"list"`
-	Range   *Range        `json:"range"`
-	Toggle  *Toggle       `json:"toggle"`
-	Shot    *Shot         `json:"shot"`
+	List    []interface{} `json:"list,omitempty"`
+	Range   *Range        `json:"range,omitempty"`
+	Toggle  *Toggle       `json:"toggle,omitempty"`
+	Shot    *Shot         `json:"shot,omitempty"`
 }
 
 type ActionType int32
