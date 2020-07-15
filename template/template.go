@@ -18,16 +18,15 @@ type Aircon struct {
 }
 
 type AirconMode struct {
-	Temp           *Action   `json:"temp,omitempty"`
-	Fan            *Action   `json:"fan,omitempty"`
-	HorizontalVane []*Action `json:"horizontal_vane,omitempty"`
-	VerticalVane   []*Action `json:"vertical_vane,omitempty"`
+	Temp           *Action `json:"temp,omitempty"`
+	Fan            *Action `json:"fan,omitempty"`
+	HorizontalVane *Action `json:"horizontal_vane,omitempty"`
+	VerticalVane   *Action `json:"vertical_vane,omitempty"`
 }
 
 type Action struct {
 	Type    ActionType    `json:"type"`
 	Default interface{}   `json:"default,omitempty"`
-	When    *When         `json:"when,omitempty"`
 	List    []interface{} `json:"list,omitempty"`
 	Range   *Range        `json:"range,omitempty"`
 	Toggle  *Toggle       `json:"toggle,omitempty"`
@@ -49,12 +48,6 @@ const (
 	// SHOT - Raise when pushed
 	SHOT
 )
-
-// When - if raised (or not)
-type When struct {
-	Is  string `json:"is"`
-	Not string `json:"not"`
-}
 
 // Range - Numeric range
 type Range struct {
