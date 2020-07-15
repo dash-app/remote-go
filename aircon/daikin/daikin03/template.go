@@ -37,7 +37,7 @@ var Template = &template.Template{
 				},
 				VerticalVane: &template.Action{
 					Type:    template.LIST,
-					Default: "auto",
+					Default: "keep",
 					List:    []interface{}{"keep", "swing"},
 				},
 			},
@@ -58,8 +58,8 @@ var Template = &template.Template{
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.LIST,
-					Default: "swing",
-					List:    []interface{}{"swing", "1", "2", "3", "4", "5"},
+					Default: "auto",
+					List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
 				},
 				VerticalVane: &template.Action{
 					Type:    template.LIST,
@@ -85,7 +85,7 @@ var Template = &template.Template{
 				HorizontalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"swing", "1", "2", "3", "4", "5"},
+					List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
 				},
 				VerticalVane: &template.Action{
 					Type:    template.LIST,
@@ -111,7 +111,7 @@ var Template = &template.Template{
 				HorizontalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"swing", "1", "2", "3", "4", "5"},
+					List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
 				},
 				VerticalVane: &template.Action{
 					Type:    template.LIST,
