@@ -96,15 +96,17 @@ func (a *Action) Validate(v interface{}) error {
 			return fmt.Errorf("invalid shot provided: %v", v)
 		}
 	case MULTIPLE:
-		var err error
+		if v == a.Default {
+			return nil
+		}
 		for _, m := range a.Multiple {
-			if err := m.Validate(v); err != nil && a.Default != v {
-				err = fmt.Errorf("multiple actions couldn't satisfied: %v", v)
-			} else {
-				err = nil // reset err when passed after validation...
+			if v == m.Default {
+				return nil
+			} else if err := m.Validate(v); err == nil {
+				return nil
 			}
 		}
-		return err
+		return fmt.Errorf("multiple actions couldn't satisfied: %v", v)
 	default:
 		return errors.New("unknown type provided")
 	}
