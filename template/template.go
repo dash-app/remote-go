@@ -25,12 +25,13 @@ type AirconMode struct {
 }
 
 type Action struct {
-	Type    ActionType    `json:"type"`
-	Default interface{}   `json:"default,omitempty"`
-	List    []interface{} `json:"list,omitempty"`
-	Range   *Range        `json:"range,omitempty"`
-	Toggle  *Toggle       `json:"toggle,omitempty"`
-	Shot    *Shot         `json:"shot,omitempty"`
+	Type     ActionType    `json:"type"`
+	Default  interface{}   `json:"default,omitempty"`
+	List     []interface{} `json:"list,omitempty"`
+	Range    *Range        `json:"range,omitempty"`
+	Toggle   *Toggle       `json:"toggle,omitempty"`
+	Shot     *Shot         `json:"shot,omitempty"`
+	Multiple []*Action     `json:"multiple,omitempty"`
 }
 
 type ActionType int32
@@ -47,6 +48,9 @@ const (
 
 	// SHOT - Raise when pushed
 	SHOT
+
+	// MULTIPLE - Multiple actions
+	MULTIPLE
 )
 
 // Range - Numeric range
@@ -91,6 +95,16 @@ func (a *Action) Validate(v interface{}) error {
 		if a.Default != v && a.Shot.Value != v {
 			return fmt.Errorf("invalid shot provided: %v", v)
 		}
+	case MULTIPLE:
+		var err error
+		for _, m := range a.Multiple {
+			if err := m.Validate(v); err != nil && a.Default != v {
+				err = fmt.Errorf("multiple actions couldn't satisfied: %v", v)
+			} else {
+				err = nil // reset err when passed after validation...
+			}
+		}
+		return err
 	default:
 		return errors.New("unknown type provided")
 	}

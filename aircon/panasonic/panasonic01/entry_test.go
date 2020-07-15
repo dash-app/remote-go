@@ -512,6 +512,10 @@ func Test_Panasonic01(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.Title, func(t *testing.T) {
+			if err := test.Validate(); err != nil {
+				t.Error(err)
+				t.Fail()
+			}
 			if err := test.Compare(); err != nil {
 				t.Error(err)
 				t.Fail()
