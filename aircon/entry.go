@@ -92,10 +92,19 @@ func New(b []byte, t *template.Template) (*Entry, error) {
 		if !ok {
 			return nil, errors.New("invalid horizontal_vane provided")
 		}
-		if err := t.Aircon.Modes[ac.Mode].HorizontalVane.Validate(hVane); err != nil {
-			return nil, fmt.Errorf("invalid horizontal_vane provided: %v", err)
+
+		var validateErr error
+		for _, v := range t.Aircon.Modes[ac.Mode].HorizontalVane {
+			if err := v.Validate(hVane); err != nil {
+				validateErr = err
+			} else {
+				ac.HorizontalVane = hVane
+				validateErr = nil
+			}
 		}
-		ac.HorizontalVane = hVane
+		if validateErr != nil {
+			return nil, errors.New("invalid horizontal_vane provided")
+		}
 	}
 
 	// Vertical Vane
@@ -104,10 +113,19 @@ func New(b []byte, t *template.Template) (*Entry, error) {
 		if !ok {
 			return nil, errors.New("invalid vertical_vane provided")
 		}
-		if err := t.Aircon.Modes[ac.Mode].VerticalVane.Validate(vVane); err != nil {
-			return nil, fmt.Errorf("invalid vertical_vane provided: %v", err)
+
+		var validateErr error
+		for _, v := range t.Aircon.Modes[ac.Mode].VerticalVane {
+			if err := v.Validate(vVane); err != nil {
+				validateErr = err
+			} else {
+				ac.VerticalVane = vVane
+				validateErr = nil
+			}
 		}
-		ac.VerticalVane = vVane
+		if validateErr != nil {
+			return nil, fmt.Errorf("invalid vertical_vane provided")
+		}
 	}
 
 	return ac, nil

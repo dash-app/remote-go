@@ -30,15 +30,19 @@ var Template = &template.Template{
 					Default: "auto",
 					List:    []interface{}{"auto"},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.LIST,
-					Default: "auto",
-					List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+				HorizontalVane: []*template.Action{
+					{
+						Type:    template.LIST,
+						Default: "auto",
+						List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.LIST,
-					Default: "auto",
-					List:    []interface{}{"auto", "swing", "left", "mid_left", "center", "mid_right", "right"},
+				VerticalVane: []*template.Action{
+					{
+						Type:    template.LIST,
+						Default: "auto",
+						List:    []interface{}{"auto", "swing", "left", "mid_left", "center", "mid_right", "right"},
+					},
 				},
 			},
 			"cool": &template.AirconMode{
@@ -56,15 +60,19 @@ var Template = &template.Template{
 					Default: "auto",
 					List:    []interface{}{"auto", "1", "2", "3", "4", "5"},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.LIST,
-					Default: "auto",
-					List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+				HorizontalVane: []*template.Action{
+					{
+						Type:    template.LIST,
+						Default: "auto",
+						List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.LIST,
-					Default: "auto",
-					List:    []interface{}{"auto", "swing", "left", "mid_left", "center", "mid_right", "right"},
+				VerticalVane: []*template.Action{
+					{
+						Type:    template.LIST,
+						Default: "auto",
+						List:    []interface{}{"auto", "swing", "left", "mid_left", "center", "mid_right", "right"},
+					},
 				},
 			},
 			"dry": &template.AirconMode{
@@ -82,15 +90,19 @@ var Template = &template.Template{
 					Default: "auto",
 					List:    []interface{}{"auto"},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.LIST,
-					Default: "auto",
-					List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+				HorizontalVane: []*template.Action{
+					{
+						Type:    template.LIST,
+						Default: "auto",
+						List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.LIST,
-					Default: "auto",
-					List:    []interface{}{"auto", "swing", "left", "mid_left", "center", "mid_right", "right"},
+				VerticalVane: []*template.Action{
+					{
+						Type:    template.LIST,
+						Default: "auto",
+						List:    []interface{}{"auto", "swing", "left", "mid_left", "center", "mid_right", "right"},
+					},
 				},
 			},
 			"heat": &template.AirconMode{
@@ -108,15 +120,19 @@ var Template = &template.Template{
 					Default: "auto",
 					List:    []interface{}{"auto", "1", "2", "3", "4", "5"},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.LIST,
-					Default: "auto",
-					List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+				HorizontalVane: []*template.Action{
+					{
+						Type:    template.LIST,
+						Default: "auto",
+						List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.LIST,
-					Default: "auto",
-					List:    []interface{}{"auto", "swing", "left", "mid_left", "center", "mid_right", "right"},
+				VerticalVane: []*template.Action{
+					{
+						Type:    template.LIST,
+						Default: "auto",
+						List:    []interface{}{"auto", "swing", "left", "mid_left", "center", "mid_right", "right"},
+					},
 				},
 			},
 		},
