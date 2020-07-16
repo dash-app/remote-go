@@ -9,10 +9,14 @@ import (
 	"github.com/dash-app/remote-go/remote"
 )
 
+type ACOriginals struct {
+	Code [][]int
+}
+
 type ACTestEntry struct {
 	Title    string
 	Remote   remote.Aircon
-	Original [][]int
+	Original []*ACOriginals
 	Entry    *aircon.Entry
 }
 
@@ -57,18 +61,21 @@ func (te *ACTestEntry) Compare() error {
 	}
 
 	// Output both entries
-	if ok := reflect.DeepEqual(te.Original, code[0].Code); !ok {
-		errs := "\n"
-		errs += fmt.Sprintln("-- Expected:")
-		for _, v := range hex.Format(te.Original) {
-			errs += fmt.Sprintf("\t%s", v)
-		}
-		errs += fmt.Sprintln("-- Generated:")
-		for _, v := range hex.Format(code[0].Code) {
-			errs += fmt.Sprintf("\t%s", v)
-		}
+	for i, c := range code {
+		if ok := reflect.DeepEqual(te.Original[i].Code, c.Code); !ok {
+			errs := "\n"
+			errs += fmt.Sprintln("-- Expected:")
+			for _, v := range hex.Format(te.Original[i].Code) {
+				errs += fmt.Sprintf("\t%s", v)
+			}
+			errs += fmt.Sprintln("-- Generated:")
+			for _, v := range hex.Format(c.Code) {
+				errs += fmt.Sprintf("\t%s", v)
+			}
 
-		return fmt.Errorf("Compare failed!! %v", errs)
+			return fmt.Errorf("Compare failed!! (step: %d) %v", i, errs)
+		}
 	}
+
 	return nil
 }
