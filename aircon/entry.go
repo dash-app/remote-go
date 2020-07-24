@@ -43,55 +43,33 @@ func (e *Entry) Validate(t *template.Template) error {
 
 	// Temp
 	if t.Aircon.Modes[e.Mode].Temp != nil {
-		if temp, ok := e.Temp.(float64); ok {
-			if err := t.Aircon.Modes[e.Mode].Temp.Validate(temp); err != nil {
-				return fmt.Errorf("failed validate temp: %v", err)
-			}
-		} else if temp, ok := e.Temp.(string); ok {
-			if err := t.Aircon.Modes[ac.Mode].Temp.Validate(temp); err != nil {
-				return nil, fmt.Errorf("invalid temp provided: %v", err)
-			}
-			ac.Temp = temp
-		} else {
-			return nil, errors.New("invalid temp provided")
+		if err := t.Aircon.Modes[e.Mode].Temp.Validate(e.Temp); err != nil {
+			return fmt.Errorf("invalid temp provided: %v", err)
 		}
 	}
 
 	// Fan
-	if t.Aircon.Modes[ac.Mode].Fan != nil {
-		fan, ok := base["fan"].(string)
-		if !ok {
-			return nil, errors.New("invalid fan provided")
+	if t.Aircon.Modes[e.Mode].Fan != nil {
+		if err := t.Aircon.Modes[e.Mode].Fan.Validate(e.Fan); err != nil {
+			return fmt.Errorf("invalid fan provided: %v", err)
 		}
-		if err := t.Aircon.Modes[ac.Mode].Fan.Validate(fan); err != nil {
-			return nil, fmt.Errorf("invalid fan provided: %v", err)
-		}
-		ac.Fan = fan
 	}
 
 	// Horizontal Vane
-	if t.Aircon.Modes[ac.Mode].HorizontalVane != nil {
-		hVane, ok := base["horizontal_vane"].(string)
-		if !ok {
-			return nil, errors.New("invalid horizontal_vane provided")
+	if t.Aircon.Modes[e.Mode].HorizontalVane != nil {
+		if err := t.Aircon.Modes[e.Mode].HorizontalVane.Validate(e.HorizontalVane); err != nil {
+			return fmt.Errorf("invalid horizontal_vane provided: %v", err)
 		}
-		if err := t.Aircon.Modes[ac.Mode].HorizontalVane.Validate(hVane); err != nil {
-			return nil, fmt.Errorf("invalid horizontal_vane provided: %v", err)
-		}
-		ac.HorizontalVane = hVane
 	}
 
 	// Vertical Vane
-	if t.Aircon.Modes[ac.Mode].VerticalVane != nil {
-		vVane, ok := base["vertical_vane"].(string)
-		if !ok {
-			return nil, errors.New("invalid vertical_vane provided")
+	if t.Aircon.Modes[e.Mode].VerticalVane != nil {
+		if err := t.Aircon.Modes[e.Mode].VerticalVane.Validate(e.VerticalVane); err != nil {
+			return fmt.Errorf("invalid vertical_vane provided: %v", err)
 		}
-		if err := t.Aircon.Modes[ac.Mode].VerticalVane.Validate(vVane); err != nil {
-			return nil, fmt.Errorf("invalid vertical_vane provided: %v", err)
-		}
-		ac.VerticalVane = vVane
 	}
+
+	return nil
 }
 
 func New(b []byte, t *template.Template) (*Entry, error) {
