@@ -30,6 +30,48 @@ type ModeEntry struct {
 	VerticalVane   string      `json:"vertical_vane,omitempty"`
 }
 
+func (e *Entry) Validate(t *template.Template) error {
+	// Operation
+	if err := t.Aircon.Operation.Validate(e.Operation); err != nil {
+		return fmt.Errorf("failed validate operation: %v", err)
+	}
+
+	// Mode
+	if t.Aircon.Modes[e.Mode] == nil {
+		return fmt.Errorf("invalid mode provided: %v", e.Mode)
+	}
+
+	// Temp
+	if t.Aircon.Modes[e.Mode].Temp != nil {
+		if err := t.Aircon.Modes[e.Mode].Temp.Validate(e.Temp); err != nil {
+			return fmt.Errorf("invalid temp provided: %v", err)
+		}
+	}
+
+	// Fan
+	if t.Aircon.Modes[e.Mode].Fan != nil {
+		if err := t.Aircon.Modes[e.Mode].Fan.Validate(e.Fan); err != nil {
+			return fmt.Errorf("invalid fan provided: %v", err)
+		}
+	}
+
+	// Horizontal Vane
+	if t.Aircon.Modes[e.Mode].HorizontalVane != nil {
+		if err := t.Aircon.Modes[e.Mode].HorizontalVane.Validate(e.HorizontalVane); err != nil {
+			return fmt.Errorf("invalid horizontal_vane provided: %v", err)
+		}
+	}
+
+	// Vertical Vane
+	if t.Aircon.Modes[e.Mode].VerticalVane != nil {
+		if err := t.Aircon.Modes[e.Mode].VerticalVane.Validate(e.VerticalVane); err != nil {
+			return fmt.Errorf("invalid vertical_vane provided: %v", err)
+		}
+	}
+
+	return nil
+}
+
 func New(b []byte, t *template.Template) (*Entry, error) {
 	ac := &Entry{}
 	var base map[string]interface{}
