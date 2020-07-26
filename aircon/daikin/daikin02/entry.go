@@ -4,10 +4,10 @@ import (
 	"errors"
 
 	"github.com/dash-app/remote-go/aircon"
-	"github.com/dash-app/remote-go/remote"
+	"github.com/dash-app/remote-go/hex"
 )
 
-func (r *daikin02) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
+func (r *daikin02) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 	code := [][]int{
 		{0x11, 0xDA, 0x27, 0x00, 0x02, 0xD0, 0x02, 0x00, 0x80, 0x0E, 0x46, 0x30, 0xE9, 0x1E, 0x00, 0x08, 0x00, 0x24, 0x00, 0x00},
 		{0x11, 0xDA, 0x27, 0x00, 0x00, 0x00, 0x24, 0x00, 0xA0, 0x00, 0x00, 0x06, 0x60, 0x00, 0x0A, 0xC4, 0x80, 0x24, 0x00},
@@ -137,7 +137,7 @@ func (r *daikin02) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 	code[0][len(code[0])-1] = sum0 & 0x0FF
 	code[1][len(code[1])-1] = sum1 & 0x0FF
 
-	return []*remote.HexCode{
+	return []*hex.HexCode{
 		{
 			Code: code,
 		},

@@ -1,10 +1,10 @@
 package daikin04
 
-import "github.com/dash-app/remote-go/remote"
+import "github.com/dash-app/remote-go/aircon"
 
 type daikin04 struct {
 }
 
-func New() remote.Aircon {
+func New() aircon.Remote {
 	return &daikin04{}
 }

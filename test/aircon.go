@@ -6,7 +6,6 @@ import (
 
 	"github.com/dash-app/remote-go/aircon"
 	"github.com/dash-app/remote-go/hex"
-	"github.com/dash-app/remote-go/remote"
 )
 
 type ACOriginals struct {
@@ -15,7 +14,7 @@ type ACOriginals struct {
 
 type ACTestEntry struct {
 	Title    string
-	Remote   remote.Aircon
+	Remote   aircon.Remote
 	Original []*ACOriginals
 	Entry    *aircon.Entry
 }

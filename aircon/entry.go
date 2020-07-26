@@ -5,8 +5,14 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/dash-app/remote-go/hex"
 	"github.com/dash-app/remote-go/template"
 )
+
+type Remote interface {
+	Generate(*Entry) ([]*hex.HexCode, error)
+	Template() *template.Template
+}
 
 type Entry struct {
 	Operation      bool        `json:"operation"`
