@@ -8,26 +8,18 @@ import (
 )
 
 func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
-	//運転内容変更
-	Original_code := [][]int{
+	code := [][]int{
 		{0x14, 0x63, 0x00, 0x10, 0x10, 0xFE, 0x0B, 0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x12, 0x00, 0x00},
 	}
-	//ON OFF 運転内容変更
-	Action_code := [][]int{
-		{0x14, 0x63, 0x00, 0x10, 0x10, 0xFE, 0x0B, 0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x12, 0x00, 0x00},
+	opcode := [][]int{
+		{},
 	}
 
 	// Operation
-	if e.Operation {
-		// 運転ボタンが押されたときは +0x01 それ以外の操作はいらん
-		// code[0][8] += 0x00
-		//Action_code[0][8] += 0x01
-	} else {
-		// code[0][8] -= 0x01
+	if !e.Operation {
 		return []*remote.HexCode{
 			{
 				Code: [][]int{
-					// オフのときの信号
 					{0x14, 0x63, 0x00, 0x10, 0x10, 0x02, 0xFD},
 				},
 			},
@@ -37,23 +29,18 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 	// Mode
 	switch e.Mode {
 	case "auto":
-		Original_code[0][9] = 0x00
-		Action_code[0][9] = 0x00
+		code[0][9] = 0x00
 	case "cool":
-		Original_code[0][9] = 0x01
-		Action_code[0][9] = 0x01
+		code[0][9] = 0x01
 	case "dry":
-		Original_code[0][9] = 0x05
-		Action_code[0][9] = 0x05
+		code[0][9] = 0x05
 	case "heat":
-		Original_code[0][9] = 0x04
-		Action_code[0][9] = 0x04
+		code[0][9] = 0x04
 	default:
 		return nil, errors.New("invalid mode provided")
 	}
 
 	// Temp
-
 	switch e.Mode {
 	case "auto":
 		var temp int
@@ -62,29 +49,23 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 		} else if t, ok := e.Temp.(int); ok {
 			temp = t
 		} else {
-			return nil, errors.New("invalid temp_AUTO provided:1")
+			return nil, errors.New("invalid temp_auto provided:1")
 		}
-		Original_code[0][8] = 0x80
-		Action_code[0][8] = 0x81
+		code[0][8] = 0x80
 		if temp >= 0.0 {
-			Original_code[0][14] = 0x00 + (0x05 * (int((temp) * 2.0)))
-			Action_code[0][14] = 0x00 + (0x05 * (int((temp) * 2.0)))
+			code[0][14] = 0x00 + (0x05 * (int((temp) * 2.0)))
 		} else {
 			switch e.Temp {
 			case -0.5:
-				Original_code[0][14] = 0xFB
-				Action_code[0][14] = 0xFB
+				code[0][14] = 0xFB
 			case -1.0:
-				Original_code[0][14] = 0xF6
-				Action_code[0][14] = 0xF6
+				code[0][14] = 0xF6
 			case -1.5:
-				Original_code[0][14] = 0xF0
-				Action_code[0][14] = 0xF0
+				code[0][14] = 0xF0
 			case -2.0:
-				Original_code[0][14] = 0xEC
-				Action_code[0][14] = 0xEC
+				code[0][14] = 0xEC
 			default:
-				return nil, errors.New("invalid temp_AUTO provided:2")
+				return nil, errors.New("invalid temp_auto provided:2")
 			}
 		}
 	case "cool", "dry":
@@ -94,12 +75,10 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 		} else if t, ok := e.Temp.(int); ok {
 			temp = t
 		} else {
-			return nil, errors.New("invalid temp_COOL&DRY provided")
+			return nil, errors.New("invalid temp_cool&dry provided")
 		}
-		Original_code[0][14] = 0x00
-		Action_code[0][14] = 0x00
-		Original_code[0][8] = 0x50 + (0x04 * int((temp-18)*2.0))
-		Action_code[0][8] = 0x50 + (0x04 * int((temp-18)*2.0)) + 0x01
+		code[0][14] = 0x00
+		code[0][8] = 0x50 + (0x04 * int((temp-18)*2.0))
 
 	case "heat":
 		var temp int
@@ -108,12 +87,10 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 		} else if t, ok := e.Temp.(int); ok {
 			temp = t
 		} else {
-			return nil, errors.New("invalid temp_HEAT provided")
+			return nil, errors.New("invalid temp_heat provided")
 		}
-		Original_code[0][14] = 0x00
-		Action_code[0][14] = 0x00
-		Original_code[0][8] = 0x40 + (0x04 * int((temp-16)*2.0))
-		Action_code[0][8] = 0x40 + (0x04 * int((temp-16)*2.0)) + 0x01
+		code[0][14] = 0x00
+		code[0][8] = 0x40 + (0x04 * int((temp-16)*2.0))
 	default:
 		return nil, errors.New("invalid temp provided")
 	}
@@ -121,20 +98,15 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 	//Fan
 	switch e.Fan {
 	case "auto":
-		Original_code[0][10] += 0x00
-		Action_code[0][10] += 0x00
+		code[0][10] += 0x00
 	case "1":
-		Original_code[0][10] += 0x01
-		Action_code[0][10] += 0x01
+		code[0][10] += 0x01
 	case "2":
-		Original_code[0][10] += 0x03
-		Action_code[0][10] += 0x03
+		code[0][10] += 0x03
 	case "3":
-		Original_code[0][10] += 0x06
-		Action_code[0][10] += 0x06
+		code[0][10] += 0x06
 	case "4":
-		Original_code[0][10] += 0x08
-		Action_code[0][10] += 0x08
+		code[0][10] += 0x08
 	default:
 		return nil, errors.New("invalid fan provaided")
 	}
@@ -150,8 +122,7 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 			},
 		}, nil
 	case "swing":
-		Original_code[0][10] += 0x10
-		Action_code[0][10] += 0x10
+		code[0][10] += 0x10
 	case "keep":
 		//No processing
 	default:
@@ -171,35 +142,66 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 			},
 		}, nil
 	case "swing":
-		Original_code[0][10] += 0x20
-		Action_code[0][10] += 0x20
+		code[0][10] += 0x20
 	default:
 		return nil, errors.New("invalid vertical_vane provided")
 	}
 
+	// if e.Operation {
+	// 	//code_copy = code
+	// 	copy(code_copy, code[:])
+	// 	code_copy[0][8] += 0x01
+	// 	fmt.Printf("%x", code)
+	// 	fmt.Printf("%x", code_copy)
+
+	// 	sum := 0
+	// 	for _, c := range code[0] {
+	// 		sum += c
+	// 	}
+	// 	//print(sum)
+	// 	code[0][len(code[0])-1] = (0xFA0 - sum%256) % 256
+	// 	sum = 0
+	// 	// print(sum)
+	// 	for _, c := range code_copy[0] {
+	// 		sum += c
+	// 	}
+	// 	//print(sum)
+	// 	code_copy[0][len(code_copy[0])-1] = (0xFA0 - sum%256) % 256
+	// }
+
 	if e.Operation {
-		O_sum := 0
-		A_sum := 0
-		for _, c := range Original_code[0] {
-			O_sum += c
+		opcode = make([][]int, len(code))
+		for i, c := range code {
+			opcode[i] = make([]int, len(c))
+			copy(opcode[i], c)
 		}
-		for _, c := range Action_code[0] {
-			A_sum += c
-		}
-		Original_code[0][len(Original_code[0])-1] = (0xFA0 - O_sum%256) % 256
-		Action_code[0][len(Action_code[0])-1] = (0xFA0 - A_sum%256) % 256
+		opcode[0][8] += 0x01
+		opcode[0][len(opcode[0])-1] = 0x00
+
+		code[0][len(code[0])-1] = cheacksum(code)
+		opcode[0][len(opcode[0])-1] = cheacksum(opcode)
+
 	}
 
 	// Create of check_sum
 	// choose 8 bit -> 0xNNN -> 0x_NN
-
 	return []*remote.HexCode{
 		{
-			Code: Original_code, // 通常時の信号
+			Code: code, // 通常時の信号
 		},
 		{
-			Code:     Action_code, // オンのときの信号 (運転開始信号)
-			Interval: 1000,
+			Code: opcode, // オンのときの信号 (運転開始信号)
+			//Interval: 1000,
 		},
 	}, nil
+}
+
+func cheacksum(code [][]int) int {
+	sum := 0
+	for _, c := range code[0] {
+		sum += c
+	}
+	results := (0xFA0 - sum%256) % 256
+
+	return results
 }

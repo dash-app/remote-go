@@ -32,18 +32,16 @@ var Template = &template.Template{
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.MULTIPLE,
-					Default: "keep", // デフォルト値。 (初期設定などに使用される。MULTIPLEじゃないのと同様。)
+					Default: "keep",
 					Multiple: []*template.Action{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							// SHOTではないので、swingが呼び出されたらデータベースにも更新される。
-							List: []interface{}{"keep", "swing"},
+							List:    []interface{}{"keep", "swing"},
 						},
 						{
 							Type:    template.SHOT,
-							Default: "keep", // ← (重要) ココのkeepはSHOTの送信後に回帰する値なので必須。
-							// switchで呼び出された場合はSHOTなので送信後、データベースにはデフォルトの `keep` が入る。
+							Default: "keep",
 							Shot: &template.Shot{
 								Value: "switch",
 							},
@@ -52,18 +50,16 @@ var Template = &template.Template{
 				},
 				VerticalVane: &template.Action{
 					Type:    template.MULTIPLE,
-					Default: "keep", // デフォルト値。 (初期設定などに使用される。MULTIPLEじゃないのと同様。)
+					Default: "keep",
 					Multiple: []*template.Action{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							// SHOTではないので、swingが呼び出されたらデータベースにも更新される。
-							List: []interface{}{"keep", "swing"},
+							List:    []interface{}{"keep", "swing"},
 						},
 						{
 							Type:    template.SHOT,
-							Default: "keep", // ← (重要) ココのkeepはSHOTの送信後に回帰する値なので必須。
-							// switchで呼び出された場合はSHOTなので送信後、データベースにはデフォルトの `keep` が入る。
+							Default: "keep",
 							Shot: &template.Shot{
 								Value: "switch",
 							},
@@ -88,18 +84,16 @@ var Template = &template.Template{
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.MULTIPLE,
-					Default: "keep", // デフォルト値。 (初期設定などに使用される。MULTIPLEじゃないのと同様。)
+					Default: "keep",
 					Multiple: []*template.Action{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							// SHOTではないので、swingが呼び出されたらデータベースにも更新される。
-							List: []interface{}{"keep", "swing"},
+							List:    []interface{}{"keep", "swing"},
 						},
 						{
 							Type:    template.SHOT,
-							Default: "keep", // ← (重要) ココのkeepはSHOTの送信後に回帰する値なので必須。
-							// switchで呼び出された場合はSHOTなので送信後、データベースにはデフォルトの `keep` が入る。
+							Default: "keep",
 							Shot: &template.Shot{
 								Value: "switch",
 							},
@@ -108,18 +102,16 @@ var Template = &template.Template{
 				},
 				VerticalVane: &template.Action{
 					Type:    template.MULTIPLE,
-					Default: "keep", // デフォルト値。 (初期設定などに使用される。MULTIPLEじゃないのと同様。)
+					Default: "keep",
 					Multiple: []*template.Action{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							// SHOTではないので、swingが呼び出されたらデータベースにも更新される。
-							List: []interface{}{"keep", "swing"},
+							List:    []interface{}{"keep", "swing"},
 						},
 						{
 							Type:    template.SHOT,
-							Default: "keep", // ← (重要) ココのkeepはSHOTの送信後に回帰する値なので必須。
-							// switchで呼び出された場合はSHOTなので送信後、データベースにはデフォルトの `keep` が入る。
+							Default: "keep",
 							Shot: &template.Shot{
 								Value: "switch",
 							},
@@ -144,18 +136,16 @@ var Template = &template.Template{
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.MULTIPLE,
-					Default: "keep", // デフォルト値。 (初期設定などに使用される。MULTIPLEじゃないのと同様。)
+					Default: "keep",
 					Multiple: []*template.Action{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							// SHOTではないので、swingが呼び出されたらデータベースにも更新される。
-							List: []interface{}{"keep", "swing"},
+							List:    []interface{}{"keep", "swing"},
 						},
 						{
 							Type:    template.SHOT,
-							Default: "keep", // ← (重要) ココのkeepはSHOTの送信後に回帰する値なので必須。
-							// switchで呼び出された場合はSHOTなので送信後、データベースにはデフォルトの `keep` が入る。
+							Default: "keep",
 							Shot: &template.Shot{
 								Value: "switch",
 							},
@@ -164,18 +154,16 @@ var Template = &template.Template{
 				},
 				VerticalVane: &template.Action{
 					Type:    template.MULTIPLE,
-					Default: "keep", // デフォルト値。 (初期設定などに使用される。MULTIPLEじゃないのと同様。)
+					Default: "keep",
 					Multiple: []*template.Action{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							// SHOTではないので、swingが呼び出されたらデータベースにも更新される。
-							List: []interface{}{"keep", "swing"},
+							List:    []interface{}{"keep", "swing"},
 						},
 						{
 							Type:    template.SHOT,
-							Default: "keep", // ← (重要) ココのkeepはSHOTの送信後に回帰する値なので必須。
-							// switchで呼び出された場合はSHOTなので送信後、データベースにはデフォルトの `keep` が入る。
+							Default: "keep",
 							Shot: &template.Shot{
 								Value: "switch",
 							},
@@ -200,18 +188,16 @@ var Template = &template.Template{
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.MULTIPLE,
-					Default: "keep", // デフォルト値。 (初期設定などに使用される。MULTIPLEじゃないのと同様。)
+					Default: "keep",
 					Multiple: []*template.Action{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							// SHOTではないので、swingが呼び出されたらデータベースにも更新される。
-							List: []interface{}{"keep", "swing"},
+							List:    []interface{}{"keep", "swing"},
 						},
 						{
 							Type:    template.SHOT,
-							Default: "keep", // ← (重要) ココのkeepはSHOTの送信後に回帰する値なので必須。
-							// switchで呼び出された場合はSHOTなので送信後、データベースにはデフォルトの `keep` が入る。
+							Default: "keep",
 							Shot: &template.Shot{
 								Value: "switch",
 							},
@@ -220,18 +206,16 @@ var Template = &template.Template{
 				},
 				VerticalVane: &template.Action{
 					Type:    template.MULTIPLE,
-					Default: "keep", // デフォルト値。 (初期設定などに使用される。MULTIPLEじゃないのと同様。)
+					Default: "keep",
 					Multiple: []*template.Action{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							// SHOTではないので、swingが呼び出されたらデータベースにも更新される。
-							List: []interface{}{"keep", "swing"},
+							List:    []interface{}{"keep", "swing"},
 						},
 						{
 							Type:    template.SHOT,
-							Default: "keep", // ← (重要) ココのkeepはSHOTの送信後に回帰する値なので必須。
-							// switchで呼び出された場合はSHOTなので送信後、データベースにはデフォルトの `keep` が入る。
+							Default: "keep",
 							Shot: &template.Shot{
 								Value: "switch",
 							},
