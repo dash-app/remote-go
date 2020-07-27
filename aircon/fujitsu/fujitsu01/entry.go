@@ -147,28 +147,6 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 		return nil, errors.New("invalid vertical_vane provided")
 	}
 
-	// if e.Operation {
-	// 	//code_copy = code
-	// 	copy(code_copy, code[:])
-	// 	code_copy[0][8] += 0x01
-	// 	fmt.Printf("%x", code)
-	// 	fmt.Printf("%x", code_copy)
-
-	// 	sum := 0
-	// 	for _, c := range code[0] {
-	// 		sum += c
-	// 	}
-	// 	//print(sum)
-	// 	code[0][len(code[0])-1] = (0xFA0 - sum%256) % 256
-	// 	sum = 0
-	// 	// print(sum)
-	// 	for _, c := range code_copy[0] {
-	// 		sum += c
-	// 	}
-	// 	//print(sum)
-	// 	code_copy[0][len(code_copy[0])-1] = (0xFA0 - sum%256) % 256
-	// }
-
 	if e.Operation {
 		opcode = make([][]int, len(code))
 		for i, c := range code {
