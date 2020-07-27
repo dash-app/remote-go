@@ -11,9 +11,6 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 	code := [][]int{
 		{0x14, 0x63, 0x00, 0x10, 0x10, 0xFE, 0x0B, 0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x12, 0x00, 0x00},
 	}
-	opcode := [][]int{
-		{},
-	}
 
 	// Operation
 	if !e.Operation {
@@ -147,34 +144,32 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 		return nil, errors.New("invalid vertical_vane provided")
 	}
 
-	if e.Operation {
-		opcode = make([][]int, len(code))
-		for i, c := range code {
-			opcode[i] = make([]int, len(c))
-			copy(opcode[i], c)
-		}
-		opcode[0][8] += 0x01
-		opcode[0][len(opcode[0])-1] = 0x00
-
-		code[0][len(code[0])-1] = cheacksum(code)
-		opcode[0][len(opcode[0])-1] = cheacksum(opcode)
-
+	//check_sum
+	opcode := make([][]int, len(code))
+	for i, c := range code {
+		opcode[i] = make([]int, len(c))
+		copy(opcode[i], c)
 	}
+	opcode[0][8] += 0x01
+	opcode[0][len(opcode[0])-1] = 0x00
 
-	// Create of check_sum
+	code[0][len(code[0])-1] = checksum(code)
+	opcode[0][len(opcode[0])-1] = checksum(opcode)
+
 	// choose 8 bit -> 0xNNN -> 0x_NN
 	return []*remote.HexCode{
 		{
 			Code: code, // 通常時の信号
 		},
 		{
-			Code: opcode, // オンのときの信号 (運転開始信号)
-			//Interval: 1000,
+			Code:     opcode, // オンのときの信号 (運転開始信号)
+			Interval: 500,
 		},
 	}, nil
 }
 
-func cheacksum(code [][]int) int {
+// Create of check_sum
+func checksum(code [][]int) int {
 	sum := 0
 	for _, c := range code[0] {
 		sum += c
