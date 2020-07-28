@@ -36,6 +36,17 @@ type ModeEntry struct {
 	VerticalVane   string      `json:"vertical_vane,omitempty"`
 }
 
+func (s *State) ToEntry() *Entry {
+	return &Entry{
+		Operation:      s.Operation,
+		Mode:           s.Mode,
+		Temp:           s.Modes[s.Mode].Temp,
+		Fan:            s.Modes[s.Mode].Fan,
+		HorizontalVane: s.Modes[s.Mode].HorizontalVane,
+		VerticalVane:   s.Modes[s.Mode].VerticalVane,
+	}
+}
+
 func (e *Entry) Validate(t *template.Template) error {
 	// Operation
 	if err := t.Aircon.Operation.Validate(e.Operation); err != nil {
