@@ -11,6 +11,12 @@ import (
 	"github.com/dash-app/remote-go/aircon/panasonic/panasonic01"
 )
 
+type Aircon struct {
+	// Remote
+	// TODO: Merge remote & template
+	// Template
+}
+
 // AirconFromName - Get remote from vendor/model name.
 func AirconFromName(vendor, model string) (aircon.Remote, error) {
 	switch {
