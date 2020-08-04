@@ -11,6 +11,7 @@ import (
 	"github.com/dash-app/remote-go/aircon/panasonic/panasonic01"
 )
 
+// TODO: Should be move to aircon package!!
 type Aircon struct {
 	// Remote - Generator, Template
 	Remote aircon.Remote

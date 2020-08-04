@@ -47,6 +47,53 @@ func (s *State) ToEntry() *Entry {
 	}
 }
 
+// UpdateFromEntry - Update State from Entry (but, values must be satisfied by template)
+func (s *State) UpdateFromEntry(e *Entry, t *template.Template) (*State, error) {
+	// TODO: To Replace individual Validator
+	if err := e.Validate(t); err != nil {
+		return nil, err
+	}
+
+	// Operation
+	s.Operation = e.Operation
+
+	// Mode
+	if t.Aircon.Modes[e.Mode] == nil {
+		return nil, errors.New("unexpected mode provided")
+	}
+	s.Mode = e.Mode
+
+	// Temp
+	if t.Aircon.Modes[e.Mode].Temp != nil {
+		if temp, ok := e.Temp.(float64); ok {
+			s.Modes[e.Mode].Temp = temp
+		} else if temp, ok := e.Temp.(int); ok {
+			s.Modes[e.Mode].Temp = temp
+		} else if temp, ok := e.Temp.(string); ok {
+			s.Modes[e.Mode].Temp = temp
+		} else {
+			return nil, errors.New("invalid temp provided")
+		}
+	}
+
+	// Fan
+	if t.Aircon.Modes[e.Mode].Fan != nil {
+		s.Modes[e.Mode].Fan = e.Fan
+	}
+
+	// Horizontal Vane
+	if t.Aircon.Modes[e.Mode].HorizontalVane != nil {
+		s.Modes[e.Mode].HorizontalVane = e.HorizontalVane
+	}
+
+	// Vertical Vane
+	if t.Aircon.Modes[e.Mode].VerticalVane != nil {
+		s.Modes[e.Mode].VerticalVane = e.VerticalVane
+	}
+
+	return s, nil
+}
+
 func (e *Entry) Validate(t *template.Template) error {
 	// Operation
 	if err := t.Aircon.Operation.Validate(e.Operation); err != nil {
