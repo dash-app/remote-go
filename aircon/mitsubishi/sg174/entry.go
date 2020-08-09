@@ -4,10 +4,10 @@ import (
 	"strconv"
 
 	"github.com/dash-app/remote-go/aircon"
-	"github.com/dash-app/remote-go/remote"
+	"github.com/dash-app/remote-go/hex"
 )
 
-func (r *sg174) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
+func (r *sg174) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 	code := [][]int{
 		{0x23, 0xCB, 0x26, 0x01, 0x00},
 		{0x23, 0xCB, 0x26, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00},
@@ -75,7 +75,7 @@ func (r *sg174) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 	}
 	code[1][len(code[1])-1] = sum
 
-	return []*remote.HexCode{
+	return []*hex.HexCode{
 		{
 			Code: code,
 		},

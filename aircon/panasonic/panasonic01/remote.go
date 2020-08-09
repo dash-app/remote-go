@@ -1,10 +1,10 @@
 package panasonic01
 
-import "github.com/dash-app/remote-go/remote"
+import "github.com/dash-app/remote-go/aircon"
 
 type panasonic01 struct {
 }
 
-func New() remote.Aircon {
+func New() aircon.Remote {
 	return &panasonic01{}
 }

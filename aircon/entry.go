@@ -5,8 +5,14 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/dash-app/remote-go/hex"
 	"github.com/dash-app/remote-go/template"
 )
+
+type Remote interface {
+	Generate(*Entry) ([]*hex.HexCode, error)
+	Template() *template.Template
+}
 
 type Entry struct {
 	Operation      bool        `json:"operation"`
@@ -28,6 +34,64 @@ type ModeEntry struct {
 	Fan            string      `json:"fan,omitempty"`
 	HorizontalVane string      `json:"horizontal_vane,omitempty"`
 	VerticalVane   string      `json:"vertical_vane,omitempty"`
+}
+
+func (s *State) ToEntry() *Entry {
+	return &Entry{
+		Operation:      s.Operation,
+		Mode:           s.Mode,
+		Temp:           s.Modes[s.Mode].Temp,
+		Fan:            s.Modes[s.Mode].Fan,
+		HorizontalVane: s.Modes[s.Mode].HorizontalVane,
+		VerticalVane:   s.Modes[s.Mode].VerticalVane,
+	}
+}
+
+// UpdateFromEntry - Update State from Entry (but, values must be satisfied by template)
+func (s *State) UpdateFromEntry(e *Entry, t *template.Template) (*State, error) {
+	// TODO: To Replace individual Validator
+	if err := e.Validate(t); err != nil {
+		return nil, err
+	}
+
+	// Operation
+	s.Operation = e.Operation
+
+	// Mode
+	if t.Aircon.Modes[e.Mode] == nil {
+		return nil, errors.New("unexpected mode provided")
+	}
+	s.Mode = e.Mode
+
+	// Temp
+	if t.Aircon.Modes[e.Mode].Temp != nil {
+		if temp, ok := e.Temp.(float64); ok {
+			s.Modes[e.Mode].Temp = temp
+		} else if temp, ok := e.Temp.(int); ok {
+			s.Modes[e.Mode].Temp = temp
+		} else if temp, ok := e.Temp.(string); ok {
+			s.Modes[e.Mode].Temp = temp
+		} else {
+			return nil, errors.New("invalid temp provided")
+		}
+	}
+
+	// Fan
+	if t.Aircon.Modes[e.Mode].Fan != nil {
+		s.Modes[e.Mode].Fan = e.Fan
+	}
+
+	// Horizontal Vane
+	if t.Aircon.Modes[e.Mode].HorizontalVane != nil {
+		s.Modes[e.Mode].HorizontalVane = e.HorizontalVane
+	}
+
+	// Vertical Vane
+	if t.Aircon.Modes[e.Mode].VerticalVane != nil {
+		s.Modes[e.Mode].VerticalVane = e.VerticalVane
+	}
+
+	return s, nil
 }
 
 func (e *Entry) Validate(t *template.Template) error {

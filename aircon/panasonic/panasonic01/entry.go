@@ -4,10 +4,10 @@ import (
 	"errors"
 
 	"github.com/dash-app/remote-go/aircon"
-	"github.com/dash-app/remote-go/remote"
+	"github.com/dash-app/remote-go/hex"
 )
 
-func (r *panasonic01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
+func (r *panasonic01) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 
 	code := [][]int{
 		{0x02, 0x20, 0xE0, 0x04, 0x00, 0x00, 0x00, 0x06},
@@ -119,7 +119,7 @@ func (r *panasonic01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 	// choose 8 bit -> 0xNNN -> 0x_NN
 	code[1][len(code[1])-1] = sum & 0x0FF
 
-	return []*remote.HexCode{
+	return []*hex.HexCode{
 		{
 			Code: code,
 		},
