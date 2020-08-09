@@ -4,17 +4,17 @@ import (
 	"errors"
 
 	"github.com/dash-app/remote-go/aircon"
-	"github.com/dash-app/remote-go/remote"
+	"github.com/dash-app/remote-go/hex"
 )
 
-func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
+func (r *fujitsu01) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 	code := [][]int{
 		{0x14, 0x63, 0x00, 0x10, 0x10, 0xFE, 0x0B, 0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x12, 0x00, 0x00},
 	}
 
 	// Operation
 	if !e.Operation {
-		return []*remote.HexCode{
+		return []*hex.HexCode{
 			{
 				Code: [][]int{
 					{0x14, 0x63, 0x00, 0x10, 0x10, 0x02, 0xFD},
@@ -111,7 +111,7 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 	//HorizontalVane
 	switch e.HorizontalVane {
 	case "switch":
-		return []*remote.HexCode{
+		return []*hex.HexCode{
 			{
 				Code: [][]int{
 					{0x14, 0x63, 0x00, 0x10, 0x10, 0x6C, 0x93},
@@ -131,7 +131,7 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 	case "keep":
 		//No processing
 	case "switch":
-		return []*remote.HexCode{
+		return []*hex.HexCode{
 			{
 				Code: [][]int{
 					{0x14, 0x63, 0x00, 0x10, 0x10, 0x79, 0x86},
@@ -155,7 +155,7 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*remote.HexCode, error) {
 	code[0][len(code[0])-1] = checksum(code)
 	opcode[0][len(opcode[0])-1] = checksum(opcode)
 
-	return []*remote.HexCode{
+	return []*hex.HexCode{
 		{
 			Code: code, // 通常時の信号
 		},
