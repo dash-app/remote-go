@@ -52,6 +52,15 @@ func (ac *Aircon) DefaultState() (*aircon.State, error) {
 			}
 		}
 
+		// Humid
+		if modeTemplate.Humid != nil {
+			if humid, ok := modeTemplate.Humid.Default.(string); ok {
+				state.Modes[mode].Humid = humid
+			} else {
+				return nil, errors.New("invalid humid provided")
+			}
+		}
+
 		// Fan
 		if modeTemplate.Fan != nil {
 			if fan, ok := modeTemplate.Fan.Default.(string); ok {
