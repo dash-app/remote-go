@@ -19,6 +19,7 @@ type Aircon struct {
 
 type AirconMode struct {
 	Temp           *Action `json:"temp,omitempty"`
+	Humid          *Action `json:"humid,omitempty"`
 	Fan            *Action `json:"fan,omitempty"`
 	HorizontalVane *Action `json:"horizontal_vane,omitempty"`
 	VerticalVane   *Action `json:"vertical_vane,omitempty"`

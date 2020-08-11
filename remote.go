@@ -9,6 +9,7 @@ import (
 	"github.com/dash-app/remote-go/aircon/daikin/daikin03"
 	"github.com/dash-app/remote-go/aircon/daikin/daikin04"
 	"github.com/dash-app/remote-go/aircon/fujitsu/fujitsu01"
+	"github.com/dash-app/remote-go/aircon/mitsubishi/mitsubishi02"
 	"github.com/dash-app/remote-go/aircon/panasonic/panasonic01"
 )
 
@@ -104,6 +105,10 @@ func AirconFromName(vendor, model string) (*Aircon, error) {
 	case vendor == "fujitsu" && model == "fujitsu01":
 		return &Aircon{
 			Remote: fujitsu01.New(),
+		}, nil
+	case vendor == "mitsubishi" && model == "mitsubishi02":
+		return &Aircon{
+			Remote: mitsubishi02.New(),
 		}, nil
 	case vendor == "panasonic" && model == "panasonic01":
 		return &Aircon{
