@@ -49,6 +49,79 @@ func (s *State) ToEntry() *Entry {
 	}
 }
 
+// DefaultState - Generate default state
+func DefaultState(t *template.Template) (*State, error) {
+	state := &State{}
+
+	// Operation
+	state.Operation = false
+
+	// Mode
+	if t.Aircon.Modes["cool"] != nil {
+		state.Mode = "cool"
+	} else {
+		for k := range t.Aircon.Modes {
+			state.Mode = k
+			break
+		}
+	}
+
+	state.Modes = make(map[string]*ModeEntry)
+	for mode, modeTemplate := range t.Aircon.Modes {
+		state.Modes[mode] = &ModeEntry{}
+		// Temp
+		if modeTemplate.Temp != nil {
+			if temp, ok := modeTemplate.Temp.Default.(float64); ok {
+				state.Modes[mode].Temp = temp
+			} else if temp, ok := modeTemplate.Temp.Default.(int); ok {
+				state.Modes[mode].Temp = temp
+			} else if temp, ok := modeTemplate.Temp.Default.(string); ok {
+				state.Modes[mode].Temp = temp
+			} else {
+				return nil, errors.New("invalid temp provided")
+			}
+		}
+
+		// Humid
+		if modeTemplate.Humid != nil {
+			if humid, ok := modeTemplate.Humid.Default.(string); ok {
+				state.Modes[mode].Humid = humid
+			} else {
+				return nil, errors.New("invalid humid provided")
+			}
+		}
+
+		// Fan
+		if modeTemplate.Fan != nil {
+			if fan, ok := modeTemplate.Fan.Default.(string); ok {
+				state.Modes[mode].Fan = fan
+			} else {
+				return nil, errors.New("invalid fan provided")
+			}
+		}
+
+		// Horizontal Vane
+		if modeTemplate.HorizontalVane != nil {
+			if hVane, ok := modeTemplate.HorizontalVane.Default.(string); ok {
+				state.Modes[mode].HorizontalVane = hVane
+			} else {
+				return nil, errors.New("invalid horizontal_vane provided")
+			}
+		}
+
+		// Vertical Vane
+		if modeTemplate.VerticalVane != nil {
+			if vVane, ok := modeTemplate.VerticalVane.Default.(string); ok {
+				state.Modes[mode].VerticalVane = vVane
+			} else {
+				return nil, errors.New("invalid vertical_vane provided")
+			}
+		}
+	}
+
+	return state, nil
+}
+
 // UpdateFromEntry - Update State from Entry (but, values must be satisfied by template)
 func (s *State) UpdateFromEntry(e *Entry, t *template.Template) (*State, error) {
 	// TODO: To Replace individual Validator
