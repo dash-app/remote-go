@@ -1,6 +1,7 @@
 package template
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 )
@@ -70,6 +71,51 @@ type Toggle struct {
 // Shot - Raise when pushed
 type Shot struct {
 	Value interface{} `json:"value"`
+}
+
+func (t ActionType) MarshalJSON() ([]byte, error) {
+	return json.Marshal(t.String())
+}
+
+func (t *ActionType) UnmarshalJSON(data []byte) error {
+	var s string
+	if err := json.Unmarshal(data, &s); err != nil {
+		return fmt.Errorf("data should be a string, got %s", data)
+	}
+
+	switch s {
+	case "LIST":
+		*t = LIST
+	case "RANGE":
+		*t = RANGE
+	case "TOGGLE":
+		*t = TOGGLE
+	case "SHOT":
+		*t = SHOT
+	case "MULTIPLE":
+		*t = MULTIPLE
+	default:
+		return fmt.Errorf("invalid actiontype %s", s)
+	}
+
+	return nil
+}
+
+func (t ActionType) String() string {
+	switch t {
+	case LIST:
+		return "LIST"
+	case RANGE:
+		return "RANGE"
+	case TOGGLE:
+		return "TOGGLE"
+	case SHOT:
+		return "SHOT"
+	case MULTIPLE:
+		return "MULTIPLE"
+	default:
+		return "UNKNOWN"
+	}
 }
 
 func (a *Action) Validate(v interface{}) error {
