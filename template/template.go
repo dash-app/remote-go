@@ -57,9 +57,11 @@ const (
 
 // Range - Numeric range
 type Range struct {
-	Step float64 `json:"step"`
-	From float64 `json:"from"`
-	To   float64 `json:"to"`
+	Step   float64 `json:"step"`
+	From   float64 `json:"from"`
+	To     float64 `json:"to"`
+	Prefix string  `json:"prefix"`
+	Suffix string  `json:"suffix"`
 }
 
 // Toggle - Switch value for boolean
