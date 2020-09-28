@@ -34,7 +34,7 @@ func (r *mitsubishi02) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 	if e.Mode == "cool" || e.Mode == "heat" {
 		temp := e.Temp.(float64)
 		t := int(temp) - 16
-		if int(temp)*10%10 == 5 {
+		if int(temp*10)%10 == 5 {
 			t += 16
 		}
 		code[1][7] = t
