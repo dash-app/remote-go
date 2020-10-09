@@ -120,6 +120,23 @@ func (t ActionType) String() string {
 	}
 }
 
+func (a *Action) IsShot(v interface{}) bool {
+	if a.Type == SHOT {
+		return true
+	}
+	//if a.Type == SHOT {
+	//	return true
+	//} else if a.Type == MULTIPLE {
+	//	for _, act := range a.Multiple {
+	//		res := act.IsShot(v)
+	//		if res {
+	//			return true
+	//		}
+	//	}
+	//}
+	return false
+}
+
 func (a *Action) Validate(v interface{}) error {
 	switch a.Type {
 	case LIST:

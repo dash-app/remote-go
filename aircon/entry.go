@@ -130,7 +130,9 @@ func (s *State) UpdateFromEntry(e *Entry, t *template.Template) (*State, error) 
 	}
 
 	// Operation
-	s.Operation = e.Operation
+	if !t.Aircon.Operation.IsShot(e.Operation) {
+		s.Operation = e.Operation
+	}
 
 	// Mode
 	if t.Aircon.Modes[e.Mode] == nil {
@@ -139,7 +141,7 @@ func (s *State) UpdateFromEntry(e *Entry, t *template.Template) (*State, error) 
 	s.Mode = e.Mode
 
 	// Temp
-	if t.Aircon.Modes[e.Mode].Temp != nil {
+	if t.Aircon.Modes[e.Mode].Temp != nil && !t.Aircon.Modes[e.Mode].Temp.IsShot(e.Temp) {
 		if temp, ok := e.Temp.(float64); ok {
 			s.Modes[e.Mode].Temp = temp
 		} else if temp, ok := e.Temp.(int); ok {
@@ -152,22 +154,22 @@ func (s *State) UpdateFromEntry(e *Entry, t *template.Template) (*State, error) 
 	}
 
 	// Humid
-	if t.Aircon.Modes[e.Mode].Humid != nil {
+	if t.Aircon.Modes[e.Mode].Humid != nil && !t.Aircon.Modes[e.Mode].Humid.IsShot(e.Humid) {
 		s.Modes[e.Mode].Humid = e.Humid
 	}
 
 	// Fan
-	if t.Aircon.Modes[e.Mode].Fan != nil {
+	if t.Aircon.Modes[e.Mode].Fan != nil && !t.Aircon.Modes[e.Mode].Fan.IsShot(e.Fan) {
 		s.Modes[e.Mode].Fan = e.Fan
 	}
 
 	// Horizontal Vane
-	if t.Aircon.Modes[e.Mode].HorizontalVane != nil {
+	if t.Aircon.Modes[e.Mode].HorizontalVane != nil && !t.Aircon.Modes[e.Mode].HorizontalVane.IsShot(e.HorizontalVane) {
 		s.Modes[e.Mode].HorizontalVane = e.HorizontalVane
 	}
 
 	// Vertical Vane
-	if t.Aircon.Modes[e.Mode].VerticalVane != nil {
+	if t.Aircon.Modes[e.Mode].VerticalVane != nil && !t.Aircon.Modes[e.Mode].VerticalVane.IsShot(e.VerticalVane) {
 		s.Modes[e.Mode].VerticalVane = e.VerticalVane
 	}
 
