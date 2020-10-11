@@ -89,6 +89,23 @@ var Template = &template.Template{
 					List:    []interface{}{"left", "mid_left", "center", "swing", "mid_right", "right"},
 				},
 			},
+			"fan": {
+				Fan: &template.Action{
+					Type:    template.LIST,
+					Default: "auto",
+					List:    []interface{}{"auto", "1", "2", "3", "4", "5"},
+				},
+				HorizontalVane: &template.Action{
+					Type:    template.LIST,
+					Default: "auto",
+					List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+				},
+				VerticalVane: &template.Action{
+					Type:    template.LIST,
+					Default: "center",
+					List:    []interface{}{"left", "mid_left", "center", "swing", "mid_right", "right"},
+				},
+			},
 		},
 	},
 }

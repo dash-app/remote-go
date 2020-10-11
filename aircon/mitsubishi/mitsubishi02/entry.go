@@ -28,6 +28,8 @@ func (r *mitsubishi02) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 		code[1][7] = 0x08
 	case "heat":
 		code[1][6] = 0x48
+	case "fan":
+		code[1][6] = 0x38
 	}
 
 	// Temp
