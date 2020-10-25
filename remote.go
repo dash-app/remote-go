@@ -1,8 +1,6 @@
 package remotego
 
 import (
-	"errors"
-
 	"github.com/dash-app/remote-go/aircon"
 	"github.com/dash-app/remote-go/aircon/daikin/daikin01"
 	"github.com/dash-app/remote-go/aircon/daikin/daikin02"
@@ -13,47 +11,46 @@ import (
 	"github.com/dash-app/remote-go/aircon/panasonic/panasonic01"
 )
 
-// TODO: Should be move to aircon package!!
-type Aircon struct {
-	// Remote - Generator, Template
-	Remote aircon.Remote
+// VendorSet - Remote Controller Identifier
+type VendorSet struct {
+	Vendor string `json:"vendor"`
+	Model  string `json:"model"`
 }
 
+// Remote - Remote set (aircon, light etc...)
 type Remote struct {
-	Aircon aircon.Remote
+	Aircon map[VendorSet]aircon.Remote
 }
 
-// AirconFromName - Get remote from vendor/model name.
-func AirconFromName(vendor, model string) (*Aircon, error) {
-	switch {
-	case vendor == "daikin" && model == "daikin01":
-		return &Aircon{
-			Remote: daikin01.New(),
-		}, nil
-	case vendor == "daikin" && model == "daikin02":
-		return &Aircon{
-			Remote: daikin02.New(),
-		}, nil
-	case vendor == "daikin" && model == "daikin03":
-		return &Aircon{
-			Remote: daikin03.New(),
-		}, nil
-	case vendor == "daikin" && model == "daikin04":
-		return &Aircon{
-			Remote: daikin04.New(),
-		}, nil
-	case vendor == "fujitsu" && model == "fujitsu01":
-		return &Aircon{
-			Remote: fujitsu01.New(),
-		}, nil
-	case vendor == "mitsubishi" && model == "mitsubishi02":
-		return &Aircon{
-			Remote: mitsubishi02.New(),
-		}, nil
-	case vendor == "panasonic" && model == "panasonic01":
-		return &Aircon{
-			Remote: panasonic01.New(),
-		}, nil
+type RemoteImpl interface {
+	GetVendorAndModels() map[string][]string
+}
+
+// Init - Initialize remote controller
+func Init() *Remote {
+	return &Remote{
+		Aircon: map[VendorSet]aircon.Remote{
+			{Vendor: "daikin", Model: "daikin01"}:         daikin01.New(),
+			{Vendor: "daikin", Model: "daikin02"}:         daikin02.New(),
+			{Vendor: "daikin", Model: "daikin03"}:         daikin03.New(),
+			{Vendor: "daikin", Model: "daikin04"}:         daikin04.New(),
+			{Vendor: "fujitsu", Model: "fujitsu01"}:       fujitsu01.New(),
+			{Vendor: "mitsubishi", Model: "mitsubishi02"}: mitsubishi02.New(),
+			{Vendor: "panasonic", Model: "panasonic01"}:   panasonic01.New(),
+		},
 	}
-	return nil, errors.New("no matched")
+}
+
+// AvailableModels - Get vendor/models name
+func (r *Remote) AvailableModels() map[string][]string {
+	result := make(map[string][]string)
+	for k := range ac {
+		if result[k.Vendor] == nil {
+			result[k.Vendor] = []string{k.Model}
+		} else {
+			result[k.Vendor] = append(result[k.Vendor], k.Model)
+		}
+	}
+
+	return result
 }
