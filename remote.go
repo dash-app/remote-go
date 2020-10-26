@@ -1,6 +1,8 @@
 package remotego
 
 import (
+	"errors"
+
 	"github.com/dash-app/remote-go/aircon"
 	"github.com/dash-app/remote-go/aircon/daikin/daikin01"
 	"github.com/dash-app/remote-go/aircon/daikin/daikin02"
@@ -9,6 +11,7 @@ import (
 	"github.com/dash-app/remote-go/aircon/fujitsu/fujitsu01"
 	"github.com/dash-app/remote-go/aircon/mitsubishi/mitsubishi02"
 	"github.com/dash-app/remote-go/aircon/panasonic/panasonic01"
+	"github.com/dash-app/remote-go/template"
 )
 
 // VendorSet - Remote Controller Identifier
@@ -19,17 +22,13 @@ type VendorSet struct {
 
 // Remote - Remote set (aircon, light etc...)
 type Remote struct {
-	Aircon map[VendorSet]aircon.Remote
-}
-
-type RemoteImpl interface {
-	GetVendorAndModels() map[string][]string
+	aircon map[VendorSet]aircon.Remote
 }
 
 // Init - Initialize remote controller
 func Init() *Remote {
 	return &Remote{
-		Aircon: map[VendorSet]aircon.Remote{
+		aircon: map[VendorSet]aircon.Remote{
 			{Vendor: "daikin", Model: "daikin01"}:         daikin01.New(),
 			{Vendor: "daikin", Model: "daikin02"}:         daikin02.New(),
 			{Vendor: "daikin", Model: "daikin03"}:         daikin03.New(),
@@ -41,10 +40,39 @@ func Init() *Remote {
 	}
 }
 
-// AvailableModels - Get vendor/models name
-func (r *Remote) AvailableModels() map[string][]string {
+func (r *Remote) GetTemplate(kind, vendor, model string) (*template.Template, error) {
+	switch kind {
+	case "AIRCON":
+		e, err := r.GetAircon(vendor, model)
+		if err != nil {
+			return nil, err
+		}
+		return e.Template(), nil
+	default:
+		return nil, errors.New("unsupport kind")
+	}
+}
+
+func (r *Remote) GetAircon(vendor, model string) (aircon.Remote, error) {
+	if ac, ok := r.aircon[VendorSet{Vendor: vendor, Model: model}]; ok {
+		return ac, nil
+	}
+	return nil, errors.New("not found")
+}
+
+// AvailableAircons - Get vendor/models name
+func (r *Remote) AvailableAircons() map[string][]string {
+	var set []VendorSet
+	for k := range r.aircon {
+		set = append(set, k)
+	}
+	return extractVendorSet(set)
+}
+
+// extractVendorSet - Convert to map[string][]string format
+func extractVendorSet(from []VendorSet) map[string][]string {
 	result := make(map[string][]string)
-	for k := range ac {
+	for _, k := range from {
 		if result[k.Vendor] == nil {
 			result[k.Vendor] = []string{k.Model}
 		} else {
