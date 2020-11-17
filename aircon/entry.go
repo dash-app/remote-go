@@ -14,27 +14,27 @@ type Remote interface {
 }
 
 type Entry struct {
-	Operation      bool        `json:"operation"`
-	Mode           string      `json:"mode"`
+	Operation      bool        `json:"operation" example:"false"`
+	Mode           string      `json:"mode" example:"cool"`
 	Temp           interface{} `json:"temp,omitempty"`
-	Humid          string      `json:"humid,omitempty"`
-	Fan            string      `json:"fan,omitempty"`
-	HorizontalVane string      `json:"horizontal_vane,omitempty"`
-	VerticalVane   string      `json:"vertical_vane,omitempty"`
+	Humid          string      `json:"humid,omitempty" example:"50%"`
+	Fan            string      `json:"fan,omitempty" example:"auto"`
+	HorizontalVane string      `json:"horizontal_vane,omitempty" example:"auto"`
+	VerticalVane   string      `json:"vertical_vane,omitempty" example:"auto"`
 }
 
 type State struct {
-	Operation bool                  `json:"operation"`
-	Mode      string                `json:"mode"`
+	Operation bool                  `json:"operation" example:"false"`
+	Mode      string                `json:"mode" example:"cool"`
 	Modes     map[string]*ModeEntry `json:"modes"`
 }
 
 type ModeEntry struct {
 	Temp           interface{} `json:"temp,omitempty"`
-	Humid          string      `json:"humid,omitempty"`
-	Fan            string      `json:"fan,omitempty"`
-	HorizontalVane string      `json:"horizontal_vane,omitempty"`
-	VerticalVane   string      `json:"vertical_vane,omitempty"`
+	Humid          string      `json:"humid,omitempty" example:"50%"`
+	Fan            string      `json:"fan,omitempty" example:"auto"`
+	HorizontalVane string      `json:"horizontal_vane,omitempty" example:"swing"`
+	VerticalVane   string      `json:"vertical_vane,omitempty" example:"swing"`
 }
 
 func (s *State) ToEntry() *Entry {
