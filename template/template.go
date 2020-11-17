@@ -7,9 +7,16 @@ import (
 )
 
 type Template struct {
-	Vendor string  `json:"vendor"`
-	Model  string  `json:"model"`
-	Kind   string  `json:"kind"`
+	// Target vendor
+	Vendor string `json:"vendor" example:"vendor"`
+
+	// Target Model
+	Model string `json:"model" example:"daikin01"`
+
+	// Target Kind
+	Kind string `json:"kind" example:"aircon"`
+
+	// Aircon template
 	Aircon *Aircon `json:"aircon,omitempty"`
 }
 
