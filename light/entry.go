@@ -1,9 +1,8 @@
 package light
 
 import (
-	"text/template"
-
 	"github.com/dash-app/remote-go/hex"
+	"github.com/dash-app/remote-go/template"
 )
 
 type Remote interface {
