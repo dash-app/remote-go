@@ -13,12 +13,13 @@ type Remote interface {
 
 // Entry - Call from Client
 type Entry struct {
-	// Command - OFF, ON, NIGHT_LIGHT, ALL_LIGHT, TO_WARM, TO_COOL, TO_BRIGHT, TO_DIM
-	Command string `json:"command" example:"OFF"`
+	// Action - OFF, ON, NIGHT_LIGHT, ALL_LIGHT, TO_WARM, TO_COOL, TO_BRIGHT, TO_DIM
+	// Direct Action (Use by when not support state-based signal)
+	Action string `json:"command,omitempty" example:"OFF"`
 }
 
 // State - Remote State
 type State struct {
-	// LastCommand - Issued last commands...
-	LastCommand string `json:"last_command" example:"OFF"`
+	// LastAction - Issued last action...
+	LastCommand string `json:"last_action" example:"OFF"`
 }
