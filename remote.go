@@ -11,6 +11,8 @@ import (
 	"github.com/dash-app/remote-go/aircon/fujitsu/fujitsu01"
 	"github.com/dash-app/remote-go/aircon/mitsubishi/mitsubishi02"
 	"github.com/dash-app/remote-go/aircon/panasonic/panasonic01"
+	"github.com/dash-app/remote-go/light"
+	"github.com/dash-app/remote-go/light/hitachi/ira03h"
 	"github.com/dash-app/remote-go/template"
 )
 
@@ -23,6 +25,7 @@ type VendorSet struct {
 // Remote - Remote set (aircon, light etc...)
 type Remote struct {
 	aircon map[VendorSet]aircon.Remote
+	light  map[VendorSet]light.Remote
 }
 
 // Init - Initialize remote controller
@@ -36,6 +39,9 @@ func Init() *Remote {
 			{Vendor: "fujitsu", Model: "fujitsu01"}:       fujitsu01.New(),
 			{Vendor: "mitsubishi", Model: "mitsubishi02"}: mitsubishi02.New(),
 			{Vendor: "panasonic", Model: "panasonic01"}:   panasonic01.New(),
+		},
+		light: map[VendorSet]light.Remote{
+			{Vendor: "hitachi", Model: "ir-a03h"}: ira03h.New(),
 		},
 	}
 }
@@ -60,10 +66,26 @@ func (r *Remote) GetAircon(vendor, model string) (aircon.Remote, error) {
 	return nil, errors.New("not found")
 }
 
+func (r *Remote) GetLight(vendor, model string) (light.Remote, error) {
+	if ac, ok := r.light[VendorSet{Vendor: vendor, Model: model}]; ok {
+		return ac, nil
+	}
+	return nil, errors.New("not found")
+}
+
 // AvailableAircons - Get vendor/models name
 func (r *Remote) AvailableAircons() map[string][]string {
 	var set []VendorSet
 	for k := range r.aircon {
+		set = append(set, k)
+	}
+	return extractVendorSet(set)
+}
+
+// AvailableLights - Get vendor/models name
+func (r *Remote) AvailableLights() map[string][]string {
+	var set []VendorSet
+	for k := range r.light {
 		set = append(set, k)
 	}
 	return extractVendorSet(set)
