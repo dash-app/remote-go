@@ -54,6 +54,13 @@ func (r *Remote) GetTemplate(kind, vendor, model string) (*template.Template, er
 			return nil, err
 		}
 		return e.Template(), nil
+
+	case "LIGHT":
+		e, err := r.GetLight(vendor, model)
+		if err != nil {
+			return nil, err
+		}
+		return e.Template(), nil
 	default:
 		return nil, errors.New("unsupport kind")
 	}
