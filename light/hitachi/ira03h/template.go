@@ -11,7 +11,7 @@ var Template = &template.Template{
 			Type:    template.LIST,
 			Default: "OFF",
 			List: &template.List{
-				Values: []interface{}{"OFF", "ON", "NIGHT_LIGHT"},
+				Values: []interface{}{"OFF", "ON", "NIGHT_LIGHT", "FAV_01", "FAV_02", "FAV_03", "FAV_04"},
 			},
 		},
 		Brightness: &template.Action{
