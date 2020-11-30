@@ -126,6 +126,8 @@ func (t ActionType) String() string {
 func (a *Action) IsShot(v interface{}) bool {
 	if a.Type == SHOT {
 		return true
+	} else if a.Type == LIST && a.List.Shot {
+		return true
 	}
 	//if a.Type == SHOT {
 	//	return true
