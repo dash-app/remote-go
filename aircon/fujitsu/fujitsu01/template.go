@@ -28,7 +28,9 @@ var Template = &template.Template{
 				Fan: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto", "1", "2", "3", "4"},
+					List: &template.List{
+						Values: []interface{}{"auto", "1", "2", "3", "4"},
+					},
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.MULTIPLE,
@@ -37,7 +39,9 @@ var Template = &template.Template{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							List:    []interface{}{"keep", "swing"},
+							List: &template.List{
+								Values: []interface{}{"keep", "swing"},
+							},
 						},
 						{
 							Type:    template.SHOT,
@@ -55,7 +59,9 @@ var Template = &template.Template{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							List:    []interface{}{"keep", "swing"},
+							List: &template.List{
+								Values: []interface{}{"keep", "swing"},
+							},
 						},
 						{
 							Type:    template.SHOT,
@@ -80,7 +86,9 @@ var Template = &template.Template{
 				Fan: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto", "1", "2", "3", "4"},
+					List: &template.List{
+						Values: []interface{}{"auto", "1", "2", "3", "4"},
+					},
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.MULTIPLE,
@@ -89,7 +97,9 @@ var Template = &template.Template{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							List:    []interface{}{"keep", "swing"},
+							List: &template.List{
+								Values: []interface{}{"keep", "swing"},
+							},
 						},
 						{
 							Type:    template.SHOT,
@@ -107,7 +117,9 @@ var Template = &template.Template{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							List:    []interface{}{"keep", "swing"},
+							List: &template.List{
+								Values: []interface{}{"keep", "swing"},
+							},
 						},
 						{
 							Type:    template.SHOT,
@@ -132,7 +144,9 @@ var Template = &template.Template{
 				Fan: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto"},
+					List: &template.List{
+						Values: []interface{}{"auto"},
+					},
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.MULTIPLE,
@@ -141,7 +155,9 @@ var Template = &template.Template{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							List:    []interface{}{"keep", "swing"},
+							List: &template.List{
+								Values: []interface{}{"keep", "swing"},
+							},
 						},
 						{
 							Type:    template.SHOT,
@@ -159,7 +175,9 @@ var Template = &template.Template{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							List:    []interface{}{"keep", "swing"},
+							List: &template.List{
+								Values: []interface{}{"keep", "swing"},
+							},
 						},
 						{
 							Type:    template.SHOT,
@@ -184,7 +202,9 @@ var Template = &template.Template{
 				Fan: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto", "1", "2", "3", "4"},
+					List: &template.List{
+						Values: []interface{}{"auto", "1", "2", "3", "4"},
+					},
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.MULTIPLE,
@@ -193,7 +213,9 @@ var Template = &template.Template{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							List:    []interface{}{"keep", "swing"},
+							List: &template.List{
+								Values: []interface{}{"keep", "swing"},
+							},
 						},
 						{
 							Type:    template.SHOT,
@@ -211,7 +233,9 @@ var Template = &template.Template{
 						{
 							Type:    template.LIST,
 							Default: "keep",
-							List:    []interface{}{"keep", "swing"},
+							List: &template.List{
+								Values: []interface{}{"keep", "swing"},
+							},
 						},
 						{
 							Type:    template.SHOT,

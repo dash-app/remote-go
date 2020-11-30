@@ -30,39 +30,53 @@ var Template = &template.Template{
 				Fan: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto", "low", "mid", "high", "long"},
+					List: &template.List{
+						Values: []interface{}{"auto", "low", "mid", "high", "long"},
+					},
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+					List: &template.List{
+						Values: []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+					},
 				},
 				VerticalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "center",
-					List:    []interface{}{"left", "left_mid", "center", "right_mid", "right"},
+					List: &template.List{
+						Values: []interface{}{"left", "left_mid", "center", "right_mid", "right"},
+					},
 				},
 			},
 			"dry": &template.AirconMode{
 				Temp: &template.Action{
 					Type:    template.LIST,
 					Default: "mid",
-					List:    []interface{}{"low", "mid", "high"},
+					List: &template.List{
+						Values: []interface{}{"low", "mid", "high"},
+					},
 				},
 				Fan: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto", "low", "mid", "high", "long"},
+					List: &template.List{
+						Values: []interface{}{"auto", "low", "mid", "high", "long"},
+					},
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+					List: &template.List{
+						Values: []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+					},
 				},
 				VerticalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "center",
-					List:    []interface{}{"left", "left_mid", "center", "right_mid", "right"},
+					List: &template.List{
+						Values: []interface{}{"left", "left_mid", "center", "right_mid", "right"},
+					},
 				},
 			},
 			"heat": &template.AirconMode{
@@ -78,17 +92,23 @@ var Template = &template.Template{
 				Fan: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto", "low", "mid", "high", "long"},
+					List: &template.List{
+						Values: []interface{}{"auto", "low", "mid", "high", "long"},
+					},
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+					List: &template.List{
+						Values: []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
+					},
 				},
 				VerticalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "center",
-					List:    []interface{}{"left", "left_mid", "center", "right_mid", "right"},
+					List: &template.List{
+						Values: []interface{}{"left", "left_mid", "center", "right_mid", "right"},
+					},
 				},
 			},
 		},

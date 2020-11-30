@@ -28,17 +28,23 @@ var Template = &template.Template{
 				Fan: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto"},
+					List: &template.List{
+						Values: []interface{}{"auto"},
+					},
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "keep",
-					List:    []interface{}{"keep", "swing"},
+					List: &template.List{
+						Values: []interface{}{"keep", "swing"},
+					},
 				},
 				VerticalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "keep",
-					List:    []interface{}{"keep", "swing"},
+					List: &template.List{
+						Values: []interface{}{"keep", "swing"},
+					},
 				},
 			},
 			"cool": &template.AirconMode{
@@ -54,17 +60,23 @@ var Template = &template.Template{
 				Fan: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto", "1", "2", "3", "4", "5"},
+					List: &template.List{
+						Values: []interface{}{"auto", "1", "2", "3", "4", "5"},
+					},
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "keep",
-					List:    []interface{}{"keep", "swing"},
+					List: &template.List{
+						Values: []interface{}{"keep", "swing"},
+					},
 				},
 				VerticalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "keep",
-					List:    []interface{}{"keep", "swing"},
+					List: &template.List{
+						Values: []interface{}{"keep", "swing"},
+					},
 				},
 			},
 			"dry": &template.AirconMode{
@@ -80,17 +92,23 @@ var Template = &template.Template{
 				Fan: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto"},
+					List: &template.List{
+						Values: []interface{}{"auto"},
+					},
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "keep",
-					List:    []interface{}{"keep", "swing"},
+					List: &template.List{
+						Values: []interface{}{"keep", "swing"},
+					},
 				},
 				VerticalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "keep",
-					List:    []interface{}{"keep", "swing"},
+					List: &template.List{
+						Values: []interface{}{"keep", "swing"},
+					},
 				},
 			},
 			"heat": &template.AirconMode{
@@ -106,17 +124,23 @@ var Template = &template.Template{
 				Fan: &template.Action{
 					Type:    template.LIST,
 					Default: "auto",
-					List:    []interface{}{"auto", "1", "2", "3", "4", "5"},
+					List: &template.List{
+						Values: []interface{}{"auto", "1", "2", "3", "4", "5"},
+					},
 				},
 				HorizontalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "keep",
-					List:    []interface{}{"keep", "swing"},
+					List: &template.List{
+						Values: []interface{}{"keep", "swing"},
+					},
 				},
 				VerticalVane: &template.Action{
 					Type:    template.LIST,
 					Default: "keep",
-					List:    []interface{}{"keep", "swing"},
+					List: &template.List{
+						Values: []interface{}{"keep", "swing"},
+					},
 				},
 			},
 		},

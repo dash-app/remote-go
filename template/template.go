@@ -24,13 +24,13 @@ type Template struct {
 }
 
 type Action struct {
-	Type     ActionType    `json:"type"`
-	Default  interface{}   `json:"default,omitempty"`
-	List     []interface{} `json:"list,omitempty"`
-	Range    *Range        `json:"range,omitempty"`
-	Toggle   *Toggle       `json:"toggle,omitempty"`
-	Shot     *Shot         `json:"shot,omitempty"`
-	Multiple []*Action     `json:"multiple,omitempty"`
+	Type     ActionType  `json:"type"`
+	Default  interface{} `json:"default,omitempty"`
+	List     *List       `json:"list,omitempty"`
+	Range    *Range      `json:"range,omitempty"`
+	Toggle   *Toggle     `json:"toggle,omitempty"`
+	Shot     *Shot       `json:"shot,omitempty"`
+	Multiple []*Action   `json:"multiple,omitempty"`
 }
 
 type ActionType int32
@@ -51,6 +51,12 @@ const (
 	// MULTIPLE - Multiple actions
 	MULTIPLE
 )
+
+// List - List entries
+type List struct {
+	Shot   bool          `json:"shot,omitempty"`
+	Values []interface{} `json:"values"`
+}
 
 // Range - Numeric range
 type Range struct {
@@ -137,7 +143,7 @@ func (a *Action) IsShot(v interface{}) bool {
 func (a *Action) Validate(v interface{}) error {
 	switch a.Type {
 	case LIST:
-		for _, val := range a.List {
+		for _, val := range a.List.Values {
 			if val == v {
 				return nil
 			}
