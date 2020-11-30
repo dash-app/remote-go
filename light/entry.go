@@ -43,5 +43,5 @@ func (s *State) UpdateFromEntry(e *Entry, t *template.Template) (*State, error) 
 	} else {
 		return nil, errors.New("invalid action provided")
 	}
-	return nil, nil
+	return s, nil
 }
