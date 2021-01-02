@@ -43,9 +43,10 @@ var Template = &template.Template{
 					Type:    template.RANGE,
 					Default: 26.0,
 					Range: &template.Range{
-						Step: 1.0,
-						From: 18.0,
-						To:   32.0,
+						Step:   1.0,
+						From:   18.0,
+						To:     32.0,
+						Suffix: "℃",
 					},
 				},
 				Fan: &template.Action{
@@ -98,9 +99,10 @@ var Template = &template.Template{
 					Type:    template.RANGE,
 					Default: 23.0,
 					Range: &template.Range{
-						Step: 1.0,
-						From: 14.0,
-						To:   30.0,
+						Step:   1.0,
+						From:   14.0,
+						To:     30.0,
+						Suffix: "℃",
 					},
 				},
 				Fan: &template.Action{
