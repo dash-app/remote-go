@@ -63,8 +63,8 @@ type Range struct {
 	Step   float64 `json:"step"`
 	From   float64 `json:"from"`
 	To     float64 `json:"to"`
-	Prefix string  `json:"prefix"`
-	Suffix string  `json:"suffix"`
+	Prefix string  `json:"prefix,omitempty"`
+	Suffix string  `json:"suffix,omitempty"`
 }
 
 // Toggle - Switch value for boolean
