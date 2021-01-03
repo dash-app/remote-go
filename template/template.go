@@ -128,6 +128,12 @@ func (a *Action) IsShot(v interface{}) bool {
 		return true
 	} else if a.Type == LIST && a.List.Shot {
 		return true
+	} else if a.Type == MULTIPLE {
+		for _, m := range a.Multiple {
+			if m.IsShot(v) {
+				return true
+			}
+		}
 	}
 	//if a.Type == SHOT {
 	//	return true
@@ -171,7 +177,7 @@ func (a *Action) Validate(v interface{}) error {
 			return nil
 		}
 		for _, m := range a.Multiple {
-			if v == m.Default {
+			if v == m.Default && m.Shot.Value != v {
 				return nil
 			} else if err := m.Validate(v); err == nil {
 				return nil
