@@ -124,10 +124,14 @@ func (t ActionType) String() string {
 }
 
 func (a *Action) IsShot(v interface{}) bool {
-	if a.Type == SHOT {
+	if a.Type == SHOT && a.Shot.Value == v {
 		return true
 	} else if a.Type == LIST && a.List.Shot {
-		return true
+		for _, value := range a.List.Values {
+			if value == v {
+				return true
+			}
+		}
 	} else if a.Type == MULTIPLE {
 		for _, m := range a.Multiple {
 			if m.IsShot(v) {
@@ -135,16 +139,6 @@ func (a *Action) IsShot(v interface{}) bool {
 			}
 		}
 	}
-	//if a.Type == SHOT {
-	//	return true
-	//} else if a.Type == MULTIPLE {
-	//	for _, act := range a.Multiple {
-	//		res := act.IsShot(v)
-	//		if res {
-	//			return true
-	//		}
-	//	}
-	//}
 	return false
 }
 
