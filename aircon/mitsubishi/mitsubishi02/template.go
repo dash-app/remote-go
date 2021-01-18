@@ -44,7 +44,7 @@ var Template = &template.Template{
 					Type:    template.LIST,
 					Default: "center",
 					List: &template.List{
-						Values: []interface{}{"left", "mid_left", "center", "swing", "mid_right", "right"},
+						Values: []interface{}{"swing", "left", "mid_left", "center", "mid_right", "right"},
 					},
 				},
 			},
@@ -74,7 +74,7 @@ var Template = &template.Template{
 					Type:    template.LIST,
 					Default: "center",
 					List: &template.List{
-						Values: []interface{}{"left", "mid_left", "center", "swing", "mid_right", "right"},
+						Values: []interface{}{"swing", "left", "mid_left", "center", "mid_right", "right"},
 					},
 				},
 			},
@@ -107,7 +107,7 @@ var Template = &template.Template{
 					Type:    template.LIST,
 					Default: "center",
 					List: &template.List{
-						Values: []interface{}{"left", "mid_left", "center", "swing", "mid_right", "right"},
+						Values: []interface{}{"swing", "left", "mid_left", "center", "mid_right", "right"},
 					},
 				},
 			},
@@ -130,7 +130,7 @@ var Template = &template.Template{
 					Type:    template.LIST,
 					Default: "center",
 					List: &template.List{
-						Values: []interface{}{"left", "mid_left", "center", "swing", "mid_right", "right"},
+						Values: []interface{}{"swing", "left", "mid_left", "center", "mid_right", "right"},
 					},
 				},
 			},
