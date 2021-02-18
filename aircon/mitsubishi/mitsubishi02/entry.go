@@ -116,7 +116,7 @@ func (r *mitsubishi02) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 	// double beep (secret)
 	// code[1][9] -= 0x20 // low tone, double beep
 	// code[1][9] -= 0x40 // double beep
-	// code[1][9] -= 0x80 // low tone
+	code[1][9] -= 0x80 // low tone
 
 	// Sum
 	sum := 0
