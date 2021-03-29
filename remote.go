@@ -13,6 +13,7 @@ import (
 	"github.com/dash-app/remote-go/aircon/panasonic/panasonic01"
 	"github.com/dash-app/remote-go/light"
 	"github.com/dash-app/remote-go/light/hitachi/ira03h"
+	"github.com/dash-app/remote-go/light/odelic/rc701w"
 	"github.com/dash-app/remote-go/template"
 )
 
@@ -42,6 +43,7 @@ func Init() *Remote {
 		},
 		light: map[VendorSet]light.Remote{
 			{Vendor: "hitachi", Model: "ir-a03h"}: ira03h.New(),
+			{Vendor: "odelic", Model: "rc701w"}:   rc701w.New(),
 		},
 	}
 }
