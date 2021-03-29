@@ -2,8 +2,8 @@ package template
 
 type Light struct {
 	Mode       *Action `json:"mode"`
-	Brightness *Action `json:"brightness"`
-	Color      *Action `json:"color"`
+	Brightness *Action `json:"brightness,omitempty"`
+	Color      *Action `json:"color,omitempty"`
 }
 
 func (l *Light) CommandToAction(cmd string) *Action {
