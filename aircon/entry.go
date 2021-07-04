@@ -17,7 +17,7 @@ type Entry struct {
 	Operation      bool        `json:"operation" example:"false"`
 	Mode           string      `json:"mode" example:"cool"`
 	Temp           interface{} `json:"temp,omitempty"`
-	Humid          string      `json:"humid,omitempty" example:"50%"`
+	Humid          interface{} `json:"humid,omitempty" example:"50%"`
 	Fan            string      `json:"fan,omitempty" example:"auto"`
 	HorizontalVane string      `json:"horizontal_vane,omitempty" example:"auto"`
 	VerticalVane   string      `json:"vertical_vane,omitempty" example:"auto"`
@@ -31,7 +31,7 @@ type State struct {
 
 type ModeEntry struct {
 	Temp           interface{} `json:"temp,omitempty"`
-	Humid          string      `json:"humid,omitempty" example:"50%"`
+	Humid          interface{} `json:"humid,omitempty" example:"50%"`
 	Fan            string      `json:"fan,omitempty" example:"auto"`
 	HorizontalVane string      `json:"horizontal_vane,omitempty" example:"swing"`
 	VerticalVane   string      `json:"vertical_vane,omitempty" example:"swing"`
@@ -71,50 +71,61 @@ func DefaultState(t *template.Template) (*State, error) {
 		state.Modes[mode] = &ModeEntry{}
 		// Temp
 		if modeTemplate.Temp != nil {
-			if temp, ok := modeTemplate.Temp.Default.(float64); ok {
-				state.Modes[mode].Temp = temp
-			} else if temp, ok := modeTemplate.Temp.Default.(int); ok {
-				state.Modes[mode].Temp = temp
-			} else if temp, ok := modeTemplate.Temp.Default.(string); ok {
-				state.Modes[mode].Temp = temp
+			if modeTemplate.Temp.Default != nil {
+				if err := modeTemplate.Temp.Validate(modeTemplate.Temp.Default); err != nil {
+					return nil, err
+				}
+				state.Modes[mode].Temp = modeTemplate.Temp.Default
 			} else {
-				return nil, errors.New("invalid temp provided")
+				return nil, errors.New("temp: default value must be specified")
 			}
 		}
 
 		// Humid
 		if modeTemplate.Humid != nil {
-			if humid, ok := modeTemplate.Humid.Default.(string); ok {
-				state.Modes[mode].Humid = humid
+			if modeTemplate.Humid.Default != nil {
+				if err := modeTemplate.Humid.Validate(modeTemplate.Humid.Default); err != nil {
+					return nil, err
+				}
+				state.Modes[mode].Humid = modeTemplate.Humid.Default
 			} else {
-				return nil, errors.New("invalid humid provided")
+				return nil, errors.New("humid: default value must be specified")
 			}
 		}
 
 		// Fan
 		if modeTemplate.Fan != nil {
-			if fan, ok := modeTemplate.Fan.Default.(string); ok {
-				state.Modes[mode].Fan = fan
+			if modeTemplate.Fan.Default != nil {
+				if err := modeTemplate.Fan.Validate(modeTemplate.Fan.Default); err != nil {
+					return nil, err
+				}
+				state.Modes[mode].Fan = modeTemplate.Fan.Default.(string)
 			} else {
-				return nil, errors.New("invalid fan provided")
+				return nil, errors.New("fan: default value must be specified")
 			}
 		}
 
 		// Horizontal Vane
 		if modeTemplate.HorizontalVane != nil {
-			if hVane, ok := modeTemplate.HorizontalVane.Default.(string); ok {
-				state.Modes[mode].HorizontalVane = hVane
+			if modeTemplate.HorizontalVane.Default != nil {
+				if err := modeTemplate.HorizontalVane.Validate(modeTemplate.HorizontalVane.Default); err != nil {
+					return nil, err
+				}
+				state.Modes[mode].HorizontalVane = modeTemplate.HorizontalVane.Default.(string)
 			} else {
-				return nil, errors.New("invalid horizontal_vane provided")
+				return nil, errors.New("horizontal_vane: default value must be specified")
 			}
 		}
 
 		// Vertical Vane
 		if modeTemplate.VerticalVane != nil {
-			if vVane, ok := modeTemplate.VerticalVane.Default.(string); ok {
-				state.Modes[mode].VerticalVane = vVane
+			if modeTemplate.VerticalVane.Default != nil {
+				if err := modeTemplate.VerticalVane.Validate(modeTemplate.VerticalVane.Default); err != nil {
+					return nil, err
+				}
+				state.Modes[mode].VerticalVane = modeTemplate.VerticalVane.Default.(string)
 			} else {
-				return nil, errors.New("invalid vertical_vane provided")
+				return nil, errors.New("vertical_vane: default value must be specified")
 			}
 		}
 	}
