@@ -50,7 +50,7 @@ func (r *daikin02) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 	}
 
 	// Temp
-	temp := e.Temp.(float64)
+	temp := e.Temp.(float32)
 	if e.Mode == "cool" || e.Mode == "heat" || e.Mode == "dry" {
 		code[1][6] = 0x24 + int((temp-18.0)*2.0)
 		if e.Mode == "dry" {

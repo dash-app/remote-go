@@ -41,7 +41,7 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 	switch e.Mode {
 	case "auto":
 		var temp int
-		if t, ok := e.Temp.(float64); ok {
+		if t, ok := e.Temp.(float32); ok {
 			temp = int(t)
 		} else if t, ok := e.Temp.(int); ok {
 			temp = t
@@ -67,7 +67,7 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 		}
 	case "cool", "dry":
 		var temp int
-		if t, ok := e.Temp.(float64); ok {
+		if t, ok := e.Temp.(float32); ok {
 			temp = int(t)
 		} else if t, ok := e.Temp.(int); ok {
 			temp = t
@@ -79,7 +79,7 @@ func (r *fujitsu01) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 
 	case "heat":
 		var temp int
-		if t, ok := e.Temp.(float64); ok {
+		if t, ok := e.Temp.(float32); ok {
 			temp = int(t)
 		} else if t, ok := e.Temp.(int); ok {
 			temp = t

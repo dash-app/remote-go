@@ -38,7 +38,7 @@ func (r *panasonic01) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 	// Temp
 	if e.Mode == "auto" || e.Mode == "cool" || e.Mode == "dry" || e.Mode == "heat" {
 		var temp int
-		if t, ok := e.Temp.(float64); ok {
+		if t, ok := e.Temp.(float32); ok {
 			temp = int(t)
 		} else if t, ok := e.Temp.(int); ok {
 			temp = t

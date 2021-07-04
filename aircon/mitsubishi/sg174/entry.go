@@ -29,7 +29,7 @@ func (r *sg174) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
 
 	// TODO: Switch when dry
 	if e.Mode == "cool" || e.Mode == "heat" {
-		temp := e.Temp.(float64)
+		temp := e.Temp.(float32)
 		t := int(temp) - 16
 		if int(temp)*10%10 == 5 {
 			t += 16

@@ -60,9 +60,9 @@ type List struct {
 
 // Range - Numeric range
 type Range struct {
-	Step   float64 `json:"step"`
-	From   float64 `json:"from"`
-	To     float64 `json:"to"`
+	Step   float32 `json:"step"`
+	From   float32 `json:"from"`
+	To     float32 `json:"to"`
 	Prefix string  `json:"prefix,omitempty"`
 	Suffix string  `json:"suffix,omitempty"`
 }
@@ -152,7 +152,7 @@ func (a *Action) Validate(v interface{}) error {
 		}
 		return fmt.Errorf("invalid value provided in list: %v", v)
 	case RANGE:
-		if val, ok := v.(float64); ok {
+		if val, ok := v.(float32); ok {
 			if val < a.Range.From || val > a.Range.To {
 				return fmt.Errorf("out of range: %v", val)
 			}
