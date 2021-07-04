@@ -157,6 +157,8 @@ func (a *Action) Validate(v interface{}) error {
 				return fmt.Errorf("out of range: %v", val)
 			}
 			// TODO: Validate Step
+		} else {
+			return fmt.Errorf("unsupported range type (must be float)")
 		}
 	case TOGGLE:
 		if a.Toggle.ON != v && a.Toggle.OFF != v {
