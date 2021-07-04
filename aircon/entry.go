@@ -153,7 +153,7 @@ func (s *State) UpdateFromEntry(e *Entry, t *template.Template) (*State, error) 
 
 	// Temp
 	if t.Aircon.Modes[e.Mode].Temp != nil && !t.Aircon.Modes[e.Mode].Temp.IsShot(e.Temp) {
-		if temp, ok := e.Temp.(float32); ok {
+		if temp, ok := e.Temp.(float64); ok {
 			s.Modes[e.Mode].Temp = temp
 		} else if temp, ok := e.Temp.(int); ok {
 			s.Modes[e.Mode].Temp = temp
