@@ -25,61 +25,66 @@ type VendorSet struct {
 
 // Remote - Remote set (aircon, light etc...)
 type Remote struct {
-	aircon map[VendorSet]aircon.Remote
-	light  map[VendorSet]light.Remote
+	aircon map[VendorSet]*RemoteSet
+	light  map[VendorSet]*RemoteSet
+}
+
+// RemoteSet - Abstract remote structure
+type RemoteSet struct {
+	aircon aircon.Remote
+	light  light.Remote
 }
 
 // Init - Initialize remote controller
 func Init() *Remote {
 	return &Remote{
-		aircon: map[VendorSet]aircon.Remote{
-			{Vendor: "daikin", Model: "daikin01"}:         daikin01.New(),
-			{Vendor: "daikin", Model: "daikin02"}:         daikin02.New(),
-			{Vendor: "daikin", Model: "daikin03"}:         daikin03.New(),
-			{Vendor: "daikin", Model: "daikin04"}:         daikin04.New(),
-			{Vendor: "fujitsu", Model: "fujitsu01"}:       fujitsu01.New(),
-			{Vendor: "mitsubishi", Model: "mitsubishi02"}: mitsubishi02.New(),
-			{Vendor: "panasonic", Model: "panasonic01"}:   panasonic01.New(),
+		aircon: map[VendorSet]*RemoteSet{
+			{Vendor: "daikin", Model: "daikin01"}:         {aircon: daikin01.New()},
+			{Vendor: "daikin", Model: "daikin02"}:         {aircon: daikin02.New()},
+			{Vendor: "daikin", Model: "daikin03"}:         {aircon: daikin03.New()},
+			{Vendor: "daikin", Model: "daikin04"}:         {aircon: daikin04.New()},
+			{Vendor: "fujitsu", Model: "fujitsu01"}:       {aircon: fujitsu01.New()},
+			{Vendor: "mitsubishi", Model: "mitsubishi02"}: {aircon: mitsubishi02.New()},
+			{Vendor: "panasonic", Model: "panasonic01"}:   {aircon: panasonic01.New()},
 		},
-		light: map[VendorSet]light.Remote{
-			{Vendor: "hitachi", Model: "ir-a03h"}: ira03h.New(),
-			{Vendor: "odelic", Model: "rc701w"}:   rc701w.New(),
+		light: map[VendorSet]*RemoteSet{
+			{Vendor: "hitachi", Model: "ir-a03h"}: {light: ira03h.New()},
+			{Vendor: "odelic", Model: "rc701w"}:   {light: rc701w.New()},
 		},
 	}
 }
 
-func (r *Remote) GetTemplate(kind, vendor, model string) (*template.Template, error) {
+// Aircon - Get Aircon
+func (rs *RemoteSet) Aircon() aircon.Remote {
+	return rs.aircon
+}
+
+// Light - Get light
+func (rs *RemoteSet) Light() light.Remote {
+	return rs.light
+}
+
+// Template - Get template
+func (rs *RemoteSet) Template() *template.Template {
+	if rs.aircon != nil {
+		return rs.aircon.Template()
+	}
+	if rs.light != nil {
+		return rs.light.Template()
+	}
+	return nil
+}
+
+// Get - Get remote-set
+func (r *Remote) Get(kind, vendor, model string) (*RemoteSet, error) {
 	switch kind {
 	case "AIRCON":
-		e, err := r.GetAircon(vendor, model)
-		if err != nil {
-			return nil, err
-		}
-		return e.Template(), nil
-
+		return r.aircon[VendorSet{Vendor: vendor, Model: model}], nil
 	case "LIGHT":
-		e, err := r.GetLight(vendor, model)
-		if err != nil {
-			return nil, err
-		}
-		return e.Template(), nil
+		return r.light[VendorSet{Vendor: vendor, Model: model}], nil
 	default:
 		return nil, errors.New("unsupport kind")
 	}
-}
-
-func (r *Remote) GetAircon(vendor, model string) (aircon.Remote, error) {
-	if ac, ok := r.aircon[VendorSet{Vendor: vendor, Model: model}]; ok {
-		return ac, nil
-	}
-	return nil, errors.New("not found")
-}
-
-func (r *Remote) GetLight(vendor, model string) (light.Remote, error) {
-	if ac, ok := r.light[VendorSet{Vendor: vendor, Model: model}]; ok {
-		return ac, nil
-	}
-	return nil, errors.New("not found")
 }
 
 // AvailableAircons - Get vendor/models name
