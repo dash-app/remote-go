@@ -1,148 +1,150 @@
 package daikin01
 
-import "github.com/dash-app/remote-go/template"
+import (
+	"github.com/dash-app/remote-go/appliances"
+)
 
-var Template = &template.Template{
+var Template = &appliances.Template{
 	Vendor: "daikin",
 	Model:  "01",
-	Kind:   "aircon",
-	Aircon: &template.Aircon{
-		Operation: &template.Action{
-			Type: template.TOGGLE,
-			Toggle: &template.Toggle{
+	Kind:   appliances.AIRCON,
+	Aircon: &appliances.AirconTemplate{
+		Operation: &appliances.ActionTemplate{
+			Type: appliances.TOGGLE,
+			Toggle: &appliances.Toggle{
 				ON:  true,
 				OFF: false,
 			},
 		},
-		Modes: map[string]*template.AirconMode{
-			"auto": &template.AirconMode{
-				Temp: &template.Action{
-					Type:    template.RANGE,
+		Modes: map[string]*appliances.AirconModeTemplate{
+			"auto": {
+				Temp: &appliances.ActionTemplate{
+					Type:    appliances.RANGE,
 					Default: 0.0,
-					Range: &template.Range{
+					Range: &appliances.Range{
 						Step:   0.5,
 						From:   -5.0,
 						To:     5.0,
 						Suffix: "℃",
 					},
 				},
-				Fan: &template.Action{
-					Type:    template.LIST,
+				Fan: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto"},
 					},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.LIST,
+				HorizontalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "keep",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"keep", "swing"},
 					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.LIST,
+				VerticalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "keep",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"keep", "swing"},
 					},
 				},
 			},
-			"cool": &template.AirconMode{
-				Temp: &template.Action{
-					Type:    template.RANGE,
+			"cool": {
+				Temp: &appliances.ActionTemplate{
+					Type:    appliances.RANGE,
 					Default: 26.0,
-					Range: &template.Range{
+					Range: &appliances.Range{
 						Step:   0.5,
 						From:   18.0,
 						To:     32.0,
 						Suffix: "℃",
 					},
 				},
-				Fan: &template.Action{
-					Type:    template.LIST,
+				Fan: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "1", "2", "3", "4", "5"},
 					},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.LIST,
+				HorizontalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "keep",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"keep", "swing"},
 					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.LIST,
+				VerticalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "keep",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"keep", "swing"},
 					},
 				},
 			},
-			"dry": &template.AirconMode{
-				Temp: &template.Action{
-					Type:    template.RANGE,
+			"dry": {
+				Temp: &appliances.ActionTemplate{
+					Type:    appliances.RANGE,
 					Default: 0.0,
-					Range: &template.Range{
+					Range: &appliances.Range{
 						Step:   0.5,
 						From:   -5.0,
 						To:     5.0,
 						Suffix: "℃",
 					},
 				},
-				Fan: &template.Action{
-					Type:    template.LIST,
+				Fan: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto"},
 					},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.LIST,
+				HorizontalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "keep",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"keep", "swing"},
 					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.LIST,
+				VerticalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "keep",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"keep", "swing"},
 					},
 				},
 			},
-			"heat": &template.AirconMode{
-				Temp: &template.Action{
-					Type:    template.RANGE,
+			"heat": {
+				Temp: &appliances.ActionTemplate{
+					Type:    appliances.RANGE,
 					Default: 23.0,
-					Range: &template.Range{
+					Range: &appliances.Range{
 						Step:   0.5,
 						From:   14.0,
 						To:     30.0,
 						Suffix: "℃",
 					},
 				},
-				Fan: &template.Action{
-					Type:    template.LIST,
+				Fan: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "1", "2", "3", "4", "5"},
 					},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.LIST,
+				HorizontalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "keep",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"keep", "swing"},
 					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.LIST,
+				VerticalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "keep",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"keep", "swing"},
 					},
 				},
@@ -151,6 +153,6 @@ var Template = &template.Template{
 	},
 }
 
-func (r *daikin01) Template() *template.Template {
+func (r *daikin01) Template() *appliances.Template {
 	return Template
 }

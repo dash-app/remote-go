@@ -1,31 +1,33 @@
 package rc701w
 
-import "github.com/dash-app/remote-go/template"
+import (
+	"github.com/dash-app/remote-go/appliances"
+)
 
-var Template = &template.Template{
+var Template = &appliances.Template{
 	Vendor: "odelic",
 	Model:  "rc701w",
-	Kind:   "light",
-	Light: &template.Light{
-		Mode: &template.Action{
-			Type:    template.LIST,
+	Kind:   appliances.LIGHT,
+	Light: &appliances.LightTemplate{
+		Mode: &appliances.ActionTemplate{
+			Type:    appliances.LIST,
 			Default: "OFF",
-			List: &template.List{
+			List: &appliances.List{
 				Values: []interface{}{"OFF", "ON", "NIGHT_LIGHT", "FAV"},
 			},
 		},
-		Brightness: &template.Action{
-			Type: template.MULTIPLE,
-			Multiple: []*template.Action{
+		Brightness: &appliances.ActionTemplate{
+			Type: appliances.MULTIPLE,
+			Multiple: []*appliances.ActionTemplate{
 				{
-					Type: template.SHOT,
-					Shot: &template.Shot{
+					Type: appliances.SHOT,
+					Shot: &appliances.Shot{
 						Value: "TO_DIM",
 					},
 				},
 				{
-					Type: template.SHOT,
-					Shot: &template.Shot{
+					Type: appliances.SHOT,
+					Shot: &appliances.Shot{
 						Value: "TO_BRIGHT",
 					},
 				},
@@ -34,6 +36,6 @@ var Template = &template.Template{
 	},
 }
 
-func (r *rc701w) Template() *template.Template {
+func (r *rc701w) Template() *appliances.Template {
 	return Template
 }

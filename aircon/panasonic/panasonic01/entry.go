@@ -3,11 +3,12 @@ package panasonic01
 import (
 	"errors"
 
-	"github.com/dash-app/remote-go/aircon"
+	"github.com/dash-app/remote-go/appliances"
 	"github.com/dash-app/remote-go/hex"
 )
 
-func (r *panasonic01) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
+func (r *panasonic01) Generate(req *appliances.Request) ([]*hex.HexCode, error) {
+	e := req.Aircon()
 
 	code := [][]int{
 		{0x02, 0x20, 0xE0, 0x04, 0x00, 0x00, 0x00, 0x06},

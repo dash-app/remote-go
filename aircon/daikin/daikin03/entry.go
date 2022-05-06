@@ -3,11 +3,12 @@ package daikin03
 import (
 	"errors"
 
-	"github.com/dash-app/remote-go/aircon"
+	"github.com/dash-app/remote-go/appliances"
 	"github.com/dash-app/remote-go/hex"
 )
 
-func (r *daikin03) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
+func (r *daikin03) Generate(req *appliances.Request) ([]*hex.HexCode, error) {
+	e := req.Aircon()
 	code := [][]int{
 		{0x00},
 		{0x11, 0xDA, 0x27, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00},

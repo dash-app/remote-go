@@ -1,48 +1,50 @@
 package ira03h
 
-import "github.com/dash-app/remote-go/template"
+import (
+	"github.com/dash-app/remote-go/appliances"
+)
 
-var Template = &template.Template{
+var Template = &appliances.Template{
 	Vendor: "hitachi",
 	Model:  "ir-a03h",
-	Kind:   "light",
-	Light: &template.Light{
-		Mode: &template.Action{
-			Type:    template.LIST,
+	Kind:   appliances.LIGHT,
+	Light: &appliances.LightTemplate{
+		Mode: &appliances.ActionTemplate{
+			Type:    appliances.LIST,
 			Default: "OFF",
-			List: &template.List{
+			List: &appliances.List{
 				Values: []interface{}{"OFF", "ON", "NIGHT_LIGHT", "FAV_01", "FAV_02", "FAV_03", "FAV_04"},
 			},
 		},
-		Brightness: &template.Action{
-			Type: template.MULTIPLE,
-			Multiple: []*template.Action{
+		Brightness: &appliances.ActionTemplate{
+			Type: appliances.MULTIPLE,
+			Multiple: []*appliances.ActionTemplate{
 				{
-					Type: template.SHOT,
-					Shot: &template.Shot{
+					Type: appliances.SHOT,
+					Shot: &appliances.Shot{
 						Value: "TO_DIM",
 					},
 				},
 				{
-					Type: template.SHOT,
-					Shot: &template.Shot{
+					Type: appliances.SHOT,
+					Shot: &appliances.Shot{
 						Value: "TO_BRIGHT",
 					},
 				},
 			},
 		},
-		Color: &template.Action{
-			Type: template.MULTIPLE,
-			Multiple: []*template.Action{
+		Color: &appliances.ActionTemplate{
+			Type: appliances.MULTIPLE,
+			Multiple: []*appliances.ActionTemplate{
 				{
-					Type: template.SHOT,
-					Shot: &template.Shot{
+					Type: appliances.SHOT,
+					Shot: &appliances.Shot{
 						Value: "TO_COOL",
 					},
 				},
 				{
-					Type: template.SHOT,
-					Shot: &template.Shot{
+					Type: appliances.SHOT,
+					Shot: &appliances.Shot{
 						Value: "TO_WARM",
 					},
 				},
@@ -51,6 +53,6 @@ var Template = &template.Template{
 	},
 }
 
-func (r *ira03h) Template() *template.Template {
+func (r *ira03h) Template() *appliances.Template {
 	return Template
 }

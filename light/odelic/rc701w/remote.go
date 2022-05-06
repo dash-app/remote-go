@@ -1,10 +1,10 @@
 package rc701w
 
-import "github.com/dash-app/remote-go/light"
+import "github.com/dash-app/remote-go/appliances"
 
 type rc701w struct {
 }
 
-func New() light.Remote {
+func New() appliances.RemoteController {
 	return &rc701w{}
 }

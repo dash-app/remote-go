@@ -1,4 +1,4 @@
-package template
+package appliances
 
 import (
 	"encoding/json"
@@ -14,23 +14,23 @@ type Template struct {
 	Model string `json:"model" example:"daikin01"`
 
 	// Target Kind
-	Kind string `json:"kind" example:"aircon"`
+	Kind Kind `json:"kind" example:"AIRCON"`
 
 	// Aircon template
-	Aircon *Aircon `json:"aircon,omitempty"`
+	Aircon *AirconTemplate `json:"aircon,omitempty"`
 
 	// Light template
-	Light *Light `json:"light,omitempty"`
+	Light *LightTemplate `json:"light,omitempty"`
 }
 
-type Action struct {
-	Type     ActionType  `json:"type"`
-	Default  interface{} `json:"default,omitempty"`
-	List     *List       `json:"list,omitempty"`
-	Range    *Range      `json:"range,omitempty"`
-	Toggle   *Toggle     `json:"toggle,omitempty"`
-	Shot     *Shot       `json:"shot,omitempty"`
-	Multiple []*Action   `json:"multiple,omitempty"`
+type ActionTemplate struct {
+	Type     ActionType        `json:"type"`
+	Default  interface{}       `json:"default,omitempty"`
+	List     *List             `json:"list,omitempty"`
+	Range    *Range            `json:"range,omitempty"`
+	Toggle   *Toggle           `json:"toggle,omitempty"`
+	Shot     *Shot             `json:"shot,omitempty"`
+	Multiple []*ActionTemplate `json:"multiple,omitempty"`
 }
 
 type ActionType int32
@@ -123,7 +123,7 @@ func (t ActionType) String() string {
 	}
 }
 
-func (a *Action) IsShot(v interface{}) bool {
+func (a *ActionTemplate) IsShot(v interface{}) bool {
 	if a.Type == SHOT && a.Shot.Value == v {
 		return true
 	} else if a.Type == LIST && a.List.Shot {
@@ -142,7 +142,7 @@ func (a *Action) IsShot(v interface{}) bool {
 	return false
 }
 
-func (a *Action) Validate(v interface{}) error {
+func (a *ActionTemplate) Validate(v interface{}) error {
 	switch a.Type {
 	case LIST:
 		for _, val := range a.List.Values {

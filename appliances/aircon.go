@@ -1,19 +1,11 @@
-package aircon
+package appliances
 
 import (
 	"errors"
 	"fmt"
-
-	"github.com/dash-app/remote-go/hex"
-	"github.com/dash-app/remote-go/template"
 )
 
-type Remote interface {
-	Generate(*Entry) ([]*hex.HexCode, error)
-	Template() *template.Template
-}
-
-type Entry struct {
+type Aircon struct {
 	Operation      bool        `json:"operation" example:"false"`
 	Mode           string      `json:"mode" example:"cool"`
 	Temp           interface{} `json:"temp,omitempty"`
@@ -23,7 +15,7 @@ type Entry struct {
 	VerticalVane   string      `json:"vertical_vane,omitempty" example:"auto"`
 }
 
-type State struct {
+type AirconState struct {
 	Operation bool                  `json:"operation" example:"false"`
 	Mode      string                `json:"mode" example:"cool"`
 	Modes     map[string]*ModeEntry `json:"modes"`
@@ -37,21 +29,9 @@ type ModeEntry struct {
 	VerticalVane   string      `json:"vertical_vane,omitempty" example:"swing"`
 }
 
-func (s *State) ToEntry() *Entry {
-	return &Entry{
-		Operation:      s.Operation,
-		Mode:           s.Mode,
-		Temp:           s.Modes[s.Mode].Temp,
-		Humid:          s.Modes[s.Mode].Humid,
-		Fan:            s.Modes[s.Mode].Fan,
-		HorizontalVane: s.Modes[s.Mode].HorizontalVane,
-		VerticalVane:   s.Modes[s.Mode].VerticalVane,
-	}
-}
-
-// DefaultState - Generate default state
-func DefaultState(t *template.Template) (*State, error) {
-	state := &State{}
+// NewAircon - Generate default state
+func NewAircon(t *Template) (RemoteState, error) {
+	state := &AirconState{}
 
 	// Operation
 	state.Operation = false
@@ -133,12 +113,14 @@ func DefaultState(t *template.Template) (*State, error) {
 	return state, nil
 }
 
+// UpdateFromState - Update(Replace) State from another state (for reset to default state)
+func (s *AirconState) UpdateFromState(newState *State) (RemoteState, error) {
+	return newState.Action().ToState().Aircon, nil
+}
+
 // UpdateFromEntry - Update State from Entry (but, values must be satisfied by template)
-func (s *State) UpdateFromEntry(e *Entry, t *template.Template) (*State, error) {
-	// TODO: To Replace individual Validator
-	if err := e.Validate(t); err != nil {
-		return nil, err
-	}
+func (s *AirconState) UpdateFromEntry(req *Request, t *Template) (RemoteState, error) {
+	e := req.Aircon()
 
 	// Operation
 	if !t.Aircon.Operation.IsShot(e.Operation) {
@@ -187,7 +169,23 @@ func (s *State) UpdateFromEntry(e *Entry, t *template.Template) (*State, error) 
 	return s, nil
 }
 
-func (e *Entry) Validate(t *template.Template) error {
+func (s *AirconState) ToEntry() *Request {
+	return FromAircon(&Aircon{
+		Operation:      s.Operation,
+		Mode:           s.Mode,
+		Temp:           s.Modes[s.Mode].Temp,
+		Humid:          s.Modes[s.Mode].Humid,
+		Fan:            s.Modes[s.Mode].Fan,
+		HorizontalVane: s.Modes[s.Mode].HorizontalVane,
+		VerticalVane:   s.Modes[s.Mode].VerticalVane,
+	})
+}
+
+func (s *AirconState) ToState() *State {
+	return FromAirconState(s)
+}
+
+func (s *AirconState) Validate(e Aircon, t *Template) error {
 	// Operation
 	if err := t.Aircon.Operation.Validate(e.Operation); err != nil {
 		return fmt.Errorf("failed validate operation: %v", err)

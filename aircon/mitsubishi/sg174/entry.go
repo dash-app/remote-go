@@ -3,11 +3,12 @@ package sg174
 import (
 	"strconv"
 
-	"github.com/dash-app/remote-go/aircon"
+	"github.com/dash-app/remote-go/appliances"
 	"github.com/dash-app/remote-go/hex"
 )
 
-func (r *sg174) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
+func (r *sg174) Generate(req *appliances.Request) ([]*hex.HexCode, error) {
+	e := req.Aircon()
 	code := [][]int{
 		{0x23, 0xCB, 0x26, 0x01, 0x00},
 		{0x23, 0xCB, 0x26, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00},

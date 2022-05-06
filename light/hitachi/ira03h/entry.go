@@ -3,11 +3,12 @@ package ira03h
 import (
 	"errors"
 
+	"github.com/dash-app/remote-go/appliances"
 	"github.com/dash-app/remote-go/hex"
-	"github.com/dash-app/remote-go/light"
 )
 
-func (r *ira03h) Generate(e *light.Entry) ([]*hex.HexCode, error) {
+func (r *ira03h) Generate(req *appliances.Request) ([]*hex.HexCode, error) {
+	e := req.Light()
 	switch e.Action {
 	case "OFF":
 		return []*hex.HexCode{

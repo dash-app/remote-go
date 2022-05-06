@@ -1,250 +1,252 @@
 package fujitsu01
 
-import "github.com/dash-app/remote-go/template"
+import (
+	"github.com/dash-app/remote-go/appliances"
+)
 
-var Template = &template.Template{
+var Template = &appliances.Template{
 	Vendor: "fujitsu",
 	Model:  "01",
-	Kind:   "aircon",
-	Aircon: &template.Aircon{
-		Operation: &template.Action{
-			Type: template.TOGGLE,
-			Toggle: &template.Toggle{
+	Kind:   appliances.AIRCON,
+	Aircon: &appliances.AirconTemplate{
+		Operation: &appliances.ActionTemplate{
+			Type: appliances.TOGGLE,
+			Toggle: &appliances.Toggle{
 				ON:  true,
 				OFF: false,
 			},
 		},
-		Modes: map[string]*template.AirconMode{
-			"auto": &template.AirconMode{
-				Temp: &template.Action{
-					Type:    template.RANGE,
+		Modes: map[string]*appliances.AirconModeTemplate{
+			"auto": {
+				Temp: &appliances.ActionTemplate{
+					Type:    appliances.RANGE,
 					Default: 0.0,
-					Range: &template.Range{
+					Range: &appliances.Range{
 						Step:   0.5,
 						From:   2.0,
 						To:     2.0,
 						Suffix: "℃",
 					},
 				},
-				Fan: &template.Action{
-					Type:    template.LIST,
+				Fan: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "1", "2", "3", "4"},
 					},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.MULTIPLE,
+				HorizontalVane: &appliances.ActionTemplate{
+					Type:    appliances.MULTIPLE,
 					Default: "keep",
-					Multiple: []*template.Action{
+					Multiple: []*appliances.ActionTemplate{
 						{
-							Type:    template.LIST,
+							Type:    appliances.LIST,
 							Default: "keep",
-							List: &template.List{
+							List: &appliances.List{
 								Values: []interface{}{"keep", "swing"},
 							},
 						},
 						{
-							Type:    template.SHOT,
+							Type:    appliances.SHOT,
 							Default: "keep",
-							Shot: &template.Shot{
+							Shot: &appliances.Shot{
 								Value: "switch",
 							},
 						},
 					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.MULTIPLE,
+				VerticalVane: &appliances.ActionTemplate{
+					Type:    appliances.MULTIPLE,
 					Default: "keep",
-					Multiple: []*template.Action{
+					Multiple: []*appliances.ActionTemplate{
 						{
-							Type:    template.LIST,
+							Type:    appliances.LIST,
 							Default: "keep",
-							List: &template.List{
+							List: &appliances.List{
 								Values: []interface{}{"keep", "swing"},
 							},
 						},
 						{
-							Type:    template.SHOT,
+							Type:    appliances.SHOT,
 							Default: "keep",
-							Shot: &template.Shot{
+							Shot: &appliances.Shot{
 								Value: "switch",
 							},
 						},
 					},
 				},
 			},
-			"cool": &template.AirconMode{
-				Temp: &template.Action{
-					Type:    template.RANGE,
+			"cool": {
+				Temp: &appliances.ActionTemplate{
+					Type:    appliances.RANGE,
 					Default: 26.0,
-					Range: &template.Range{
+					Range: &appliances.Range{
 						Step:   0.5,
 						From:   18.0,
 						To:     30.0,
 						Suffix: "℃",
 					},
 				},
-				Fan: &template.Action{
-					Type:    template.LIST,
+				Fan: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "1", "2", "3", "4"},
 					},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.MULTIPLE,
+				HorizontalVane: &appliances.ActionTemplate{
+					Type:    appliances.MULTIPLE,
 					Default: "keep",
-					Multiple: []*template.Action{
+					Multiple: []*appliances.ActionTemplate{
 						{
-							Type:    template.LIST,
+							Type:    appliances.LIST,
 							Default: "keep",
-							List: &template.List{
+							List: &appliances.List{
 								Values: []interface{}{"keep", "swing"},
 							},
 						},
 						{
-							Type:    template.SHOT,
+							Type:    appliances.SHOT,
 							Default: "keep",
-							Shot: &template.Shot{
+							Shot: &appliances.Shot{
 								Value: "switch",
 							},
 						},
 					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.MULTIPLE,
+				VerticalVane: &appliances.ActionTemplate{
+					Type:    appliances.MULTIPLE,
 					Default: "keep",
-					Multiple: []*template.Action{
+					Multiple: []*appliances.ActionTemplate{
 						{
-							Type:    template.LIST,
+							Type:    appliances.LIST,
 							Default: "keep",
-							List: &template.List{
+							List: &appliances.List{
 								Values: []interface{}{"keep", "swing"},
 							},
 						},
 						{
-							Type:    template.SHOT,
+							Type:    appliances.SHOT,
 							Default: "keep",
-							Shot: &template.Shot{
+							Shot: &appliances.Shot{
 								Value: "switch",
 							},
 						},
 					},
 				},
 			},
-			"dry": &template.AirconMode{
-				Temp: &template.Action{
-					Type:    template.RANGE,
+			"dry": {
+				Temp: &appliances.ActionTemplate{
+					Type:    appliances.RANGE,
 					Default: 26.0,
-					Range: &template.Range{
+					Range: &appliances.Range{
 						Step:   0.5,
 						From:   18.0,
 						To:     30.0,
 						Suffix: "℃",
 					},
 				},
-				Fan: &template.Action{
-					Type:    template.LIST,
+				Fan: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto"},
 					},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.MULTIPLE,
+				HorizontalVane: &appliances.ActionTemplate{
+					Type:    appliances.MULTIPLE,
 					Default: "keep",
-					Multiple: []*template.Action{
+					Multiple: []*appliances.ActionTemplate{
 						{
-							Type:    template.LIST,
+							Type:    appliances.LIST,
 							Default: "keep",
-							List: &template.List{
+							List: &appliances.List{
 								Values: []interface{}{"keep", "swing"},
 							},
 						},
 						{
-							Type:    template.SHOT,
+							Type:    appliances.SHOT,
 							Default: "keep",
-							Shot: &template.Shot{
+							Shot: &appliances.Shot{
 								Value: "switch",
 							},
 						},
 					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.MULTIPLE,
+				VerticalVane: &appliances.ActionTemplate{
+					Type:    appliances.MULTIPLE,
 					Default: "keep",
-					Multiple: []*template.Action{
+					Multiple: []*appliances.ActionTemplate{
 						{
-							Type:    template.LIST,
+							Type:    appliances.LIST,
 							Default: "keep",
-							List: &template.List{
+							List: &appliances.List{
 								Values: []interface{}{"keep", "swing"},
 							},
 						},
 						{
-							Type:    template.SHOT,
+							Type:    appliances.SHOT,
 							Default: "keep",
-							Shot: &template.Shot{
+							Shot: &appliances.Shot{
 								Value: "switch",
 							},
 						},
 					},
 				},
 			},
-			"heat": &template.AirconMode{
-				Temp: &template.Action{
-					Type:    template.RANGE,
+			"heat": {
+				Temp: &appliances.ActionTemplate{
+					Type:    appliances.RANGE,
 					Default: 23.0,
-					Range: &template.Range{
+					Range: &appliances.Range{
 						Step:   0.5,
 						From:   16.0,
 						To:     30.0,
 						Suffix: "℃",
 					},
 				},
-				Fan: &template.Action{
-					Type:    template.LIST,
+				Fan: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "1", "2", "3", "4"},
 					},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.MULTIPLE,
+				HorizontalVane: &appliances.ActionTemplate{
+					Type:    appliances.MULTIPLE,
 					Default: "keep",
-					Multiple: []*template.Action{
+					Multiple: []*appliances.ActionTemplate{
 						{
-							Type:    template.LIST,
+							Type:    appliances.LIST,
 							Default: "keep",
-							List: &template.List{
+							List: &appliances.List{
 								Values: []interface{}{"keep", "swing"},
 							},
 						},
 						{
-							Type:    template.SHOT,
+							Type:    appliances.SHOT,
 							Default: "keep",
-							Shot: &template.Shot{
+							Shot: &appliances.Shot{
 								Value: "switch",
 							},
 						},
 					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.MULTIPLE,
+				VerticalVane: &appliances.ActionTemplate{
+					Type:    appliances.MULTIPLE,
 					Default: "keep",
-					Multiple: []*template.Action{
+					Multiple: []*appliances.ActionTemplate{
 						{
-							Type:    template.LIST,
+							Type:    appliances.LIST,
 							Default: "keep",
-							List: &template.List{
+							List: &appliances.List{
 								Values: []interface{}{"keep", "swing"},
 							},
 						},
 						{
-							Type:    template.SHOT,
+							Type:    appliances.SHOT,
 							Default: "keep",
-							Shot: &template.Shot{
+							Shot: &appliances.Shot{
 								Value: "switch",
 							},
 						},
@@ -255,6 +257,6 @@ var Template = &template.Template{
 	},
 }
 
-func (r *fujitsu01) Template() *template.Template {
+func (r *fujitsu01) Template() *appliances.Template {
 	return Template
 }

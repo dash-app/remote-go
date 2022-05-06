@@ -3,19 +3,19 @@ package fujitsu01_test
 import (
 	"testing"
 
-	"github.com/dash-app/remote-go/aircon"
 	"github.com/dash-app/remote-go/aircon/fujitsu/fujitsu01"
+	"github.com/dash-app/remote-go/appliances"
 	"github.com/dash-app/remote-go/test"
 )
 
 func Test_Fujitsu01(t *testing.T) {
 	rem := fujitsu01.New()
 
-	tests := []*test.ACTestEntry{
+	tests := []*test.RemoteTest{
 		{
 			Title:  "Auto/Operation=true",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -29,37 +29,37 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "auto",
 				Temp:           0.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Auto/Operation=false",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					[][]int{
 						{0x14, 0x63, 0x00, 0x10, 0x10, 0x02, 0xFD},
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      false,
 				Mode:           "auto",
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Operation=true",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -73,19 +73,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           26.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Heat/Operation=true",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -99,19 +99,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "heat",
 				Temp:           23.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Dry/Operation=true",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -125,19 +125,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "dry",
 				Temp:           26.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Auto/Operation=true/temp=2.0",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -151,19 +151,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "auto",
 				Temp:           2.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Auto/Operation=true/temp=-2.0",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -177,19 +177,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "auto",
 				Temp:           -2.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Operation=true/temp=30.0",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -203,19 +203,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           30.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Operation=true/temp=18.0",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -229,19 +229,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           18.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Heat/Operation=true/temp=30.0",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -255,19 +255,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "heat",
 				Temp:           30.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Heat/Operation=true/temp=16.0",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -281,19 +281,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "heat",
 				Temp:           16.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Dry/Operation=true/temp=30.0",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -307,19 +307,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "dry",
 				Temp:           30.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Dry/Operation=true/temp=18.0",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -333,19 +333,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "dry",
 				Temp:           18.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Operation=true/Fan=1",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -359,19 +359,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           26.0,
 				Fan:            "1",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Operation=true/Fan=2",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -385,19 +385,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           26.0,
 				Fan:            "2",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Operation=true/Fan=3",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -411,19 +411,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           26.0,
 				Fan:            "3",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Operation=true/Fan=4",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -437,19 +437,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           26.0,
 				Fan:            "4",
 				HorizontalVane: "keep",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Operation=true/HorizontalVane=switch",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -457,19 +457,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           26.0,
 				Fan:            "auto",
 				HorizontalVane: "switch",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Operation=true/HorizontalVane=swing",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -483,19 +483,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           26.0,
 				Fan:            "auto",
 				HorizontalVane: "swing",
 				VerticalVane:   "keep",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Operation=true/VerticalVane=switch",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -503,19 +503,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           26.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "switch",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Operation=true/VerticalVane=swing",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -529,19 +529,19 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           26.0,
 				Fan:            "auto",
 				HorizontalVane: "keep",
 				VerticalVane:   "swing",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Operation=true/HorizontalVane=swing/VerticalVane=swing",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					// 運転内容が変更されたとき
 					Code: [][]int{
@@ -555,14 +555,14 @@ func Test_Fujitsu01(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           26.0,
 				Fan:            "auto",
 				HorizontalVane: "swing",
 				VerticalVane:   "swing",
-			},
+			}),
 		},
 	}
 

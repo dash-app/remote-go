@@ -1,135 +1,137 @@
 package mitsubishi02
 
-import "github.com/dash-app/remote-go/template"
+import (
+	"github.com/dash-app/remote-go/appliances"
+)
 
-var Template = &template.Template{
+var Template = &appliances.Template{
 	Vendor: "mitsubishi",
 	Model:  "02",
-	Kind:   "aircon",
-	Aircon: &template.Aircon{
-		Operation: &template.Action{
-			Type: template.TOGGLE,
-			Toggle: &template.Toggle{
+	Kind:   appliances.AIRCON,
+	Aircon: &appliances.AirconTemplate{
+		Operation: &appliances.ActionTemplate{
+			Type: appliances.TOGGLE,
+			Toggle: &appliances.Toggle{
 				ON:  true,
 				OFF: false,
 			},
 		},
-		Modes: map[string]*template.AirconMode{
+		Modes: map[string]*appliances.AirconModeTemplate{
 			"cool": {
-				Temp: &template.Action{
-					Type:    template.RANGE,
+				Temp: &appliances.ActionTemplate{
+					Type:    appliances.RANGE,
 					Default: 26.0,
-					Range: &template.Range{
+					Range: &appliances.Range{
 						Step:   0.5,
 						From:   16.0,
 						To:     31.0,
 						Suffix: "℃",
 					},
 				},
-				Fan: &template.Action{
-					Type:    template.LIST,
+				Fan: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "1", "2", "3", "4", "5"},
 					},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.LIST,
+				HorizontalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
 					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.LIST,
+				VerticalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "center",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"swing", "left", "mid_left", "center", "mid_right", "right"},
 					},
 				},
 			},
 			"dry": {
-				Humid: &template.Action{
-					Type:    template.LIST,
+				Humid: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "50%",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"40%", "50%", "60%"},
 					},
 				},
-				Fan: &template.Action{
-					Type:    template.LIST,
+				Fan: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "1", "2", "3", "4", "5"},
 					},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.LIST,
+				HorizontalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
 					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.LIST,
+				VerticalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "center",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"swing", "left", "mid_left", "center", "mid_right", "right"},
 					},
 				},
 			},
 			"heat": {
-				Temp: &template.Action{
-					Type:    template.RANGE,
+				Temp: &appliances.ActionTemplate{
+					Type:    appliances.RANGE,
 					Default: 26.0,
-					Range: &template.Range{
+					Range: &appliances.Range{
 						Step:   0.5,
 						From:   16.0,
 						To:     31.0,
 						Suffix: "℃",
 					},
 				},
-				Fan: &template.Action{
-					Type:    template.LIST,
+				Fan: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "1", "2", "3", "4", "5"},
 					},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.LIST,
+				HorizontalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
 					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.LIST,
+				VerticalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "center",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"swing", "left", "mid_left", "center", "mid_right", "right"},
 					},
 				},
 			},
 			"fan": {
-				Fan: &template.Action{
-					Type:    template.LIST,
+				Fan: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "1", "2", "3", "4", "5"},
 					},
 				},
-				HorizontalVane: &template.Action{
-					Type:    template.LIST,
+				HorizontalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "auto",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"auto", "swing", "1", "2", "3", "4", "5"},
 					},
 				},
-				VerticalVane: &template.Action{
-					Type:    template.LIST,
+				VerticalVane: &appliances.ActionTemplate{
+					Type:    appliances.LIST,
 					Default: "center",
-					List: &template.List{
+					List: &appliances.List{
 						Values: []interface{}{"swing", "left", "mid_left", "center", "mid_right", "right"},
 					},
 				},
@@ -138,6 +140,6 @@ var Template = &template.Template{
 	},
 }
 
-func (r *mitsubishi02) Template() *template.Template {
+func (r *mitsubishi02) Template() *appliances.Template {
 	return Template
 }

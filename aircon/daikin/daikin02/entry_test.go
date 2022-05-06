@@ -3,19 +3,19 @@ package daikin02_test
 import (
 	"testing"
 
-	"github.com/dash-app/remote-go/aircon"
 	"github.com/dash-app/remote-go/aircon/daikin/daikin02"
+	"github.com/dash-app/remote-go/appliances"
 	"github.com/dash-app/remote-go/test"
 )
 
 func Test_Daikin02(t *testing.T) {
 	rem := daikin02.New()
 
-	tests := []*test.ACTestEntry{
+	tests := []*test.RemoteTest{
 		{
 			Title:  "Cool",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					Code: [][]int{
 						{0x11, 0xDA, 0x27, 0x00, 0x02, 0xD0, 0x02, 0x00, 0x80, 0x0E, 0x46, 0x30, 0xE9, 0x1E, 0x00, 0x08, 0x00, 0x24, 0x00, 0x1D},
@@ -23,19 +23,19 @@ func Test_Daikin02(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           18.0,
 				Fan:            "auto",
 				HorizontalVane: "auto",
 				VerticalVane:   "auto",
-			},
+			}),
 		},
 		{
 			Title:  "Heat",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					Code: [][]int{
 						{0x11, 0xDA, 0x27, 0x00, 0x02, 0xD0, 0x02, 0x00, 0x80, 0x10, 0x46, 0x30, 0xE9, 0x1E, 0x00, 0x08, 0x00, 0x24, 0x00, 0x1F},
@@ -43,19 +43,19 @@ func Test_Daikin02(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "heat",
 				Temp:           25.0,
 				Fan:            "auto",
 				HorizontalVane: "auto",
 				VerticalVane:   "auto",
-			},
+			}),
 		},
 		{
 			Title:  "Dry",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					Code: [][]int{
 						{0x11, 0xDA, 0x27, 0x00, 0x02, 0xD0, 0x02, 0x00, 0x80, 0x0F, 0x46, 0x30, 0xE9, 0x1E, 0x00, 0x08, 0x00, 0x24, 0x00, 0x1E},
@@ -63,19 +63,19 @@ func Test_Daikin02(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "dry",
 				Temp:           25.0,
 				Fan:            "auto",
 				HorizontalVane: "auto",
 				VerticalVane:   "auto",
-			},
+			}),
 		},
 		{
 			Title:  "OFF",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					Code: [][]int{
 						{0x11, 0xDA, 0x27, 0x00, 0x02, 0xD0, 0x82, 0x00, 0x80, 0x02, 0x46, 0xB0, 0xE9, 0x1E, 0x00, 0x08, 0x00, 0x24, 0x00, 0x11},
@@ -83,19 +83,19 @@ func Test_Daikin02(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      false,
 				Mode:           "cool",
 				Temp:           18.0,
 				Fan:            "auto",
 				HorizontalVane: "auto",
 				VerticalVane:   "auto",
-			},
+			}),
 		},
 		{
 			Title:  "Cool/Fan=5",
 			Remote: rem,
-			Original: []*test.ACOriginals{
+			Original: []*test.Original{
 				{
 					Code: [][]int{
 						{0x11, 0xDA, 0x27, 0x00, 0x02, 0xD0, 0x02, 0x00, 0x80, 0x0E, 0x46, 0x30, 0xE9, 0x1E, 0x00, 0x08, 0x00, 0x24, 0x00, 0x1D},
@@ -103,23 +103,19 @@ func Test_Daikin02(t *testing.T) {
 					},
 				},
 			},
-			Entry: &aircon.Entry{
+			Request: appliances.FromAircon(&appliances.Aircon{
 				Operation:      true,
 				Mode:           "cool",
 				Temp:           25.0,
 				Fan:            "5",
 				HorizontalVane: "auto",
 				VerticalVane:   "auto",
-			},
+			}),
 		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.Title, func(t *testing.T) {
-			if err := test.Validate(); err != nil {
-				t.Error(err)
-				t.Fail()
-			}
 			if err := test.Compare(); err != nil {
 				t.Error(err)
 				t.Fail()

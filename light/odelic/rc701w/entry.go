@@ -3,11 +3,12 @@ package rc701w
 import (
 	"errors"
 
+	"github.com/dash-app/remote-go/appliances"
 	"github.com/dash-app/remote-go/hex"
-	"github.com/dash-app/remote-go/light"
 )
 
-func (r *rc701w) Generate(e *light.Entry) ([]*hex.HexCode, error) {
+func (r *rc701w) Generate(req *appliances.Request) ([]*hex.HexCode, error) {
+	e := req.Light()
 	switch e.Action {
 	case "OFF":
 		return []*hex.HexCode{

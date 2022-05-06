@@ -3,11 +3,12 @@ package fujitsu01
 import (
 	"errors"
 
-	"github.com/dash-app/remote-go/aircon"
+	"github.com/dash-app/remote-go/appliances"
 	"github.com/dash-app/remote-go/hex"
 )
 
-func (r *fujitsu01) Generate(e *aircon.Entry) ([]*hex.HexCode, error) {
+func (r *fujitsu01) Generate(req *appliances.Request) ([]*hex.HexCode, error) {
+	e := req.Aircon()
 	code := [][]int{
 		{0x14, 0x63, 0x00, 0x10, 0x10, 0xFE, 0x0B, 0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x12, 0x00, 0x00},
 	}
