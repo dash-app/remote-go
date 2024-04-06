@@ -16,6 +16,15 @@ var Template = &appliances.Template{
 				OFF: false,
 			},
 		},
+		Options: map[string]*appliances.ActionTemplate{
+			"econo": {
+				Type:    appliances.LIST,
+				Default: "OFF",
+				List: &appliances.List{
+					Values: []interface{}{"OFF", "ON"},
+				},
+			},
+		},
 		Modes: map[string]*appliances.AirconModeTemplate{
 			"cool": {
 				Temp: &appliances.ActionTemplate{

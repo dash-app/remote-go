@@ -33,6 +33,13 @@ func (r *mitsubishi02) Generate(req *appliances.Request) ([]*hex.HexCode, error)
 		code[1][6] = 0x38
 	}
 
+	// Econo
+	if e.Options["econo"] != "" {
+		if e.Options["econo"] == "ON" {
+			code[1][6] += 0x04
+		}
+	}
+
 	// Temp
 	if e.Mode == "cool" || e.Mode == "heat" {
 		temp := e.Temp.(float64)
@@ -115,9 +122,9 @@ func (r *mitsubishi02) Generate(req *appliances.Request) ([]*hex.HexCode, error)
 	}
 
 	// double beep (secret)
-	// code[1][9] -= 0x20 // low tone, double beep
-	// code[1][9] -= 0x40 // double beep
-	// code[1][9] -= 0x80 // low tone
+	// code[1][9] += 0x20 // low tone, double beep
+	// code[1][9] += 0x40 // double beep
+	// code[1][9] += 0x80 // low tone
 
 	// Sum
 	sum := 0

@@ -6,27 +6,30 @@ import (
 )
 
 type Aircon struct {
-	Operation      bool        `json:"operation" example:"false"`
-	Mode           string      `json:"mode" example:"cool"`
-	Temp           interface{} `json:"temp,omitempty"`
-	Humid          interface{} `json:"humid,omitempty" example:"50%"`
-	Fan            string      `json:"fan,omitempty" example:"auto"`
-	HorizontalVane string      `json:"horizontal_vane,omitempty" example:"auto"`
-	VerticalVane   string      `json:"vertical_vane,omitempty" example:"auto"`
+	Operation      bool              `json:"operation" example:"false"`
+	Mode           string            `json:"mode" example:"cool"`
+	Temp           interface{}       `json:"temp,omitempty"`
+	Humid          interface{}       `json:"humid,omitempty" example:"50%"`
+	Fan            string            `json:"fan,omitempty" example:"auto"`
+	HorizontalVane string            `json:"horizontal_vane,omitempty" example:"auto"`
+	VerticalVane   string            `json:"vertical_vane,omitempty" example:"auto"`
+	Options        map[string]string `json:"options,omitempty"`
 }
 
 type AirconState struct {
 	Operation bool                  `json:"operation" example:"false"`
+	Options   map[string]string     `json:"options,omitempty"`
 	Mode      string                `json:"mode" example:"cool"`
 	Modes     map[string]*ModeEntry `json:"modes"`
 }
 
 type ModeEntry struct {
-	Temp           interface{} `json:"temp,omitempty"`
-	Humid          interface{} `json:"humid,omitempty" example:"50%"`
-	Fan            string      `json:"fan,omitempty" example:"auto"`
-	HorizontalVane string      `json:"horizontal_vane,omitempty" example:"swing"`
-	VerticalVane   string      `json:"vertical_vane,omitempty" example:"swing"`
+	Temp           interface{}       `json:"temp,omitempty"`
+	Humid          interface{}       `json:"humid,omitempty" example:"50%"`
+	Fan            string            `json:"fan,omitempty" example:"auto"`
+	HorizontalVane string            `json:"horizontal_vane,omitempty" example:"swing"`
+	VerticalVane   string            `json:"vertical_vane,omitempty" example:"swing"`
+	Options        map[string]string `json:"options,omitempty"`
 }
 
 // NewAircon - Generate default state
@@ -35,6 +38,16 @@ func NewAircon(t *Template) (RemoteState, error) {
 
 	// Operation
 	state.Operation = false
+
+	// Options
+	if t.Aircon.Options != nil {
+		if state.Options == nil {
+			state.Options = make(map[string]string)
+		}
+		for key, value := range t.Aircon.Options {
+			state.Options[key] = value.Default.(string)
+		}
+	}
 
 	// Mode
 	if t.Aircon.Modes["cool"] != nil {
@@ -108,6 +121,21 @@ func NewAircon(t *Template) (RemoteState, error) {
 				return nil, errors.New("vertical_vane: default value must be specified")
 			}
 		}
+
+		// Options
+		if modeTemplate.Options != nil {
+			if state.Modes[mode].Options == nil {
+				state.Modes[mode].Options = make(map[string]string)
+			}
+
+			for key, value := range modeTemplate.Options {
+				if value.Default != nil {
+					state.Modes[mode].Options[key] = value.Default.(string)
+				} else {
+					return nil, errors.New(fmt.Sprintf("options(%s): default value must be specified", key))
+				}
+			}
+		}
 	}
 
 	return state, nil
@@ -127,11 +155,34 @@ func (s *AirconState) UpdateFromEntry(req *Request, t *Template) (RemoteState, e
 		s.Operation = e.Operation
 	}
 
+	// Options (Global)
+	if t.Aircon.Options != nil && e.Options != nil {
+		fmt.Printf("Global Update\n")
+		for key, value := range e.Options {
+			if t.Aircon.Options[key] != nil {
+				s.Options[key] = value
+			}
+		}
+	} else {
+		fmt.Println("opts no")
+	}
+
+	// Per Modes
+	s.Mode = e.Mode
+
+	// Options (in Modes)
+	if t.Aircon.Modes[e.Mode].Options != nil && s.Modes[e.Mode].Options != nil {
+		for key, value := range e.Options {
+			if t.Aircon.Modes[key] != nil {
+				s.Modes[e.Mode].Options[key] = value
+			}
+		}
+	}
+
 	// Mode
 	if t.Aircon.Modes[e.Mode] == nil {
 		return nil, errors.New("unexpected mode provided")
 	}
-	s.Mode = e.Mode
 
 	// Temp
 	if t.Aircon.Modes[e.Mode].Temp != nil && !t.Aircon.Modes[e.Mode].Temp.IsShot(e.Temp) {
@@ -170,6 +221,15 @@ func (s *AirconState) UpdateFromEntry(req *Request, t *Template) (RemoteState, e
 }
 
 func (s *AirconState) ToEntry() *Request {
+	var opts map[string]string
+	for key, value := range s.Options {
+		opts[key] = value
+	}
+
+	for key, value := range s.Modes[s.Mode].Options {
+		opts[key] = value
+	}
+
 	return FromAircon(&Aircon{
 		Operation:      s.Operation,
 		Mode:           s.Mode,
@@ -178,6 +238,7 @@ func (s *AirconState) ToEntry() *Request {
 		Fan:            s.Modes[s.Mode].Fan,
 		HorizontalVane: s.Modes[s.Mode].HorizontalVane,
 		VerticalVane:   s.Modes[s.Mode].VerticalVane,
+		Options:        opts,
 	})
 }
 
@@ -228,6 +289,23 @@ func (s *AirconState) Validate(e Aircon, t *Template) error {
 	if t.Aircon.Modes[e.Mode].VerticalVane != nil {
 		if err := t.Aircon.Modes[e.Mode].VerticalVane.Validate(e.VerticalVane); err != nil {
 			return fmt.Errorf("invalid vertical_vane provided: %v", err)
+		}
+	}
+
+	// Options
+	if t.Aircon.Options != nil {
+		for key, value := range t.Aircon.Options {
+			if err := value.Validate(e.Options[key]); err != nil {
+				return fmt.Errorf("invalid global options(%s) provided: %v", key, err)
+			}
+		}
+	}
+
+	if t.Aircon.Modes[e.Mode].Options != nil {
+		for key, value := range t.Aircon.Modes[e.Mode].Options {
+			if err := value.Validate(e.Options[key]); err != nil {
+				return fmt.Errorf("invalid mode options(%s) provided: %v", key, err)
+			}
 		}
 	}
 
