@@ -9,6 +9,7 @@ import (
 	"github.com/dash-app/remote-go/aircon/daikin/daikin04"
 	"github.com/dash-app/remote-go/aircon/fujitsu/fujitsu01"
 	"github.com/dash-app/remote-go/aircon/mitsubishi/mitsubishi02"
+	"github.com/dash-app/remote-go/aircon/mitsubishi/sc4ua"
 	"github.com/dash-app/remote-go/aircon/panasonic/panasonic01"
 	"github.com/dash-app/remote-go/appliances"
 	"github.com/dash-app/remote-go/light/hitachi/ira03h"
@@ -37,6 +38,7 @@ func Init() *Remote {
 			{Vendor: "daikin", Model: "daikin04"}:         daikin04.New(),
 			{Vendor: "fujitsu", Model: "fujitsu01"}:       fujitsu01.New(),
 			{Vendor: "mitsubishi", Model: "mitsubishi02"}: mitsubishi02.New(),
+			{Vendor: "mitsubishi", Model: "PAR-SC4UA"}:    sc4ua.New(),
 			{Vendor: "panasonic", Model: "panasonic01"}:   panasonic01.New(),
 		},
 		light: map[VendorSet]appliances.RemoteController{
