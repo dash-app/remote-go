@@ -6,7 +6,7 @@ import (
 
 var Template = &appliances.Template{
 	Vendor: "mitsubishi",
-	Model:  "02",
+	Model:  "PAR-SC4UA",
 	Kind:   appliances.AIRCON,
 	Aircon: &appliances.AirconTemplate{
 		Operation: &appliances.ActionTemplate{

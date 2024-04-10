@@ -8,7 +8,7 @@ import (
 	"github.com/dash-app/remote-go/test"
 )
 
-func Test_Mitsubishi02(t *testing.T) {
+func Test_Mitsubishi_SC4UA(t *testing.T) {
 	rem := sc4ua.New()
 	tmpl := rem.Template().Aircon
 
@@ -290,6 +290,26 @@ func Test_Mitsubishi02(t *testing.T) {
 				Fan:            tmpl.Modes["cool"].Fan.Default.(string),
 				HorizontalVane: "swing",
 				VerticalVane:   tmpl.Modes["cool"].VerticalVane.Default.(string),
+			}),
+		},
+		{
+			Title:  "Auto/HorizontalVane=Swing",
+			Remote: rem,
+			Original: []*test.Original{
+				{
+					Code: [][]int{
+						{0x23, 0xCB, 0x26, 0x21, 0x03},
+						{0x23, 0xCB, 0x26, 0x21, 0x03, 0x74, 0x03, 0x49, 0x04, 0x00, 0x00, 0x8B, 0xFC, 0xB6, 0xFB, 0xFF, 0xFF},
+					},
+				},
+			},
+			Request: appliances.FromAircon(&appliances.Aircon{
+				Operation:      true,
+				Mode:           "auto",
+				Temp:           tmpl.Modes["auto"].Temp.Default,
+				Fan:            tmpl.Modes["auto"].Fan.Default.(string),
+				HorizontalVane: "swing",
+				VerticalVane:   tmpl.Modes["auto"].VerticalVane.Default.(string),
 			}),
 		},
 		{
