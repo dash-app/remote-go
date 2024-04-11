@@ -14,6 +14,7 @@ import (
 	"github.com/dash-app/remote-go/appliances"
 	"github.com/dash-app/remote-go/light/hitachi/ira03h"
 	"github.com/dash-app/remote-go/light/odelic/rc701w"
+	"github.com/dash-app/remote-go/light/panasonic/hk9817"
 )
 
 // VendorSet - Remote Controller Identifier
@@ -42,8 +43,9 @@ func Init() *Remote {
 			{Vendor: "panasonic", Model: "panasonic01"}:   panasonic01.New(),
 		},
 		light: map[VendorSet]appliances.RemoteController{
-			{Vendor: "hitachi", Model: "ir-a03h"}: ira03h.New(),
-			{Vendor: "odelic", Model: "rc701w"}:   rc701w.New(),
+			{Vendor: "hitachi", Model: "ir-a03h"}:  ira03h.New(),
+			{Vendor: "odelic", Model: "rc701w"}:    rc701w.New(),
+			{Vendor: "panasonic", Model: "hk9817"}: hk9817.New(),
 		},
 	}
 }
